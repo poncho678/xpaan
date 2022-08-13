@@ -10,13 +10,24 @@
 
   <body>
     <nav>
-      <ul>
-        <li>
-          <a href="/auth/Login">Login</a>
-        </li>
-        <li>
-          <a href="/auth/register">Sign Up</a>
-        </li>
+      <ul class="nav-links">
+        {{! If there is a user i want to display that you can add books }}
+        {{! If there is NO user i want to display Login and Register }}
+        {{#if isLoggedIn}}
+          <li>
+            <a href="/settings">Settings</a>
+          </li>
+          <li>
+            <a href="/auth/logout">Logout</a>
+          </li>
+        {{else}}
+          <li>
+            <a href="/auth/login">Login</a>
+          </li>
+          <li>
+            <a href="/auth/signup">Sign Up</a>
+          </li>
+        {{/if}}
       </ul>
     </nav>
     {{{body}}}
