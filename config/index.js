@@ -61,4 +61,11 @@ module.exports = (app) => {
       }),
     })
   );
+
+  app.use((req, res, next) => {
+    if (req.session.user) {
+      res.locals.isLoggedIn = true;
+    }
+    next();
+  });
 };
