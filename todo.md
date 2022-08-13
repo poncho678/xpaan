@@ -6,21 +6,22 @@
   -- password
 
 - collection
-  -- title
-  -- items
+  xx title
+  xx items
+  -- isTodoList
 
 - items
-  -- title
+  xx title
   -- url
-  -- image? - as in image Url
+  xx image? - as in image Url
   --- multer ???
   --- cloudinary ???
   --- multer-storage-cloudinary ???
   --- enctype="multipart/form-data"
   --- dotenv
-  -- text / notes
-  -- comments?
-  -- status?? (possible Todo Function?)
+  xx text
+  xx comments / notes
+  xx status?? (possible Todo Function?)
 
 <!-- Routes -->
 
