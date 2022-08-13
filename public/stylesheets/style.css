@@ -7,6 +7,13 @@
   padding: 0;
 }
 
+a {
+  display: block;
+  color: inherit;
+  font-family: inherit;
+  text-decoration: none;
+}
+
 /************** TYPOGRAPHY **************/
 
 @font-face {
