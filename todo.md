@@ -32,11 +32,12 @@
 /settings/delete-user/
 
 /collection/all
+/collection/:id/
 /collection/add
 /collection/edit
 /collection/delete
-/collection/:id/
 
 /item/add
-/item/edit
 /item/:id/
+/item/edit
+/item/delete
