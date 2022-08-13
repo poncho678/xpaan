@@ -4,6 +4,12 @@ const itemSchema = new Schema({
   title: {
     type: String,
   },
+  image: {
+    type: String,
+  },
+  url: {
+    type: String,
+  },
 });
 
 const Item = model("Item", itemSchema);
