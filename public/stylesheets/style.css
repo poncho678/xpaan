@@ -1,6 +1,32 @@
+/************** RESET CSS **************/
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/************** TYPOGRAPHY **************/
+
+@font-face {
+  font-family: "Sligoil";
+  src: url("../fonts/Sligoil-Micro.woff2") format("woff2"),
+    url("../fonts/Sligoil-Micro.woff") format("woff");
+}
+
+/************** VARS **************/
+
+:root {
+  --primary-color: #4e00ff;
+}
+
+/************** GLOBAL **************/
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Sligoil", Helvetica, Arial, sans-serif;
+  color: var(--primary-color);
 }
 
 a {
