@@ -25,7 +25,9 @@ a {
 /************** VARS **************/
 
 :root {
-  --primary-color: #4e00ff;
+  --primary-color-light: #4e00ff;
+  /* colors under construction */
+  --primary-color-dark: #261d3c;
 }
 
 /************** GLOBAL **************/
