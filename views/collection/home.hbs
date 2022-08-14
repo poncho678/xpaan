@@ -1,1 +1,9 @@
 <h1>all collections</h1>
+
+{{#each collections}}
+  <article>
+    <a href="/collection/{{_id}}">
+      <h3>{{name}}</h3>
+    </a>
+  </article>
+{{/each}}

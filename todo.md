@@ -8,7 +8,8 @@
 - collection
   xx title
   xx items
-  -- isTodoList
+  xx isTodoList
+  // maybe image, but not necessary
 
 - items
   xx title
