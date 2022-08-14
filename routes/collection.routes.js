@@ -55,13 +55,38 @@ collectionRouter.get("/:collectionId", async (req, res) => {
 });
 
 // edit collection
-// collectionRouter.get("/:id/edit", async (req, res) => {
-//   const { collectionId } = req.params;
-//   const isValidCollectionId = isValidObjectId(collectionId);
-//   if (!isValidCollectionId) {
-//     return res.status(404).redirect("/collection");
-//   }
-// });
+collectionRouter.get("/:collectionId/edit", async (req, res) => {
+  const { collectionId } = req.params;
+  const isValidCollectionId = isValidObjectId(collectionId);
+  if (!isValidCollectionId) {
+    return res.status(404).redirect("/collection");
+  }
+  const collection = await CollectionModel.findById(collectionId);
+  const { name, description, items, isTodoList, _id } = collection;
+  res.render("collection/edit", { name, description, items, isTodoList, _id });
+});
+collectionRouter.post("/:collectionId/edit", async (req, res) => {
+  const { collectionId } = req.params;
+  const isValidCollectionId = isValidObjectId(collectionId);
+  if (!isValidCollectionId) {
+    return res.status(404).redirect("/collection");
+  }
+  let { name, description, isTodoList } = req.body;
+  isTodoList = isTodoList === "on" ? true : false;
+
+  if (!name) {
+    // maybe include error message...
+    return res.status(400).render("collection/create", { ...req.body });
+  }
+
+  await CollectionModel.findByIdAndUpdate(collectionId, {
+    name,
+    description,
+    isTodoList,
+  });
+
+  res.redirect(`/collection/${collectionId}`);
+});
 
 // delete collection
 
