@@ -26,17 +26,18 @@
 
 <!-- Routes -->
 
-/Home
+<!-- /Home -->
 
 /setttings/
 /settings/edit/
 /settings/update-password/
 /settings/delete-user/
 
-/collection/all
-/collection/:id/
-/collection/add
-/collection/edit
+<!-- /collection/all -->
+<!-- /collection/:id/ -->
+<!-- /collection/add -->
+<!-- /collection/edit -->
+
 /collection/delete
 
 /item/add
