@@ -4,9 +4,14 @@ const collectionSchema = new Schema(
   {
     name: {
       type: String,
+      required: true,
+    },
+    description: {
+      type: String,
     },
     isTodoList: {
       type: Boolean,
+      default: false,
     },
     items: [
       {
