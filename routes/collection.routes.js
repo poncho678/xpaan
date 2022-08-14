@@ -5,8 +5,9 @@ const CollectionModel = require("../models/Collection.model");
 const UserModel = require("../models/User.model");
 
 collectionRouter.get("/", async (req, res) => {
+  const currentUser = await UserModel.findById(req.session.user._id);
   const collections = await CollectionModel.find({
-    _id: { $in: req.session.user.collections },
+    _id: { $in: currentUser.collections },
   });
   res.render("collection/home", { collections });
 });
