@@ -1,0 +1,25 @@
+<h2>Create an Item</h2>
+<form method="post" action="" id="create-item-form">
+  <label for="title">
+    Title
+    <input type="text" name="title" placeholder="title" />
+  </label>
+  <label for="image">
+    Image
+    <input type="file" name="image" />
+  </label>
+  <label for="url">
+    Url
+    <input type="text" name="url" />
+  </label>
+  <label for="text">Text
+    <textarea
+      form="create-item-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
+  </label>
+  <button type="submit">Create Item</button>
+</form>

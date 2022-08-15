@@ -1,6 +1,7 @@
 <!-- ############# problems ############# -->
 
 - relationship > do I really need to pass the owner Id to prevent other users from accessing items
+- how do you pass req.params into a middleware. Or is this even possible?
 - how do you use the res.locals variable when creating your own middleware
 
 <!-- ############# Models ############# -->
