@@ -9,6 +9,12 @@ document.addEventListener(
 // ####################### DARKMODE TOGGLE #######################
 const themeToggle = document.querySelector(".btn-toggle");
 const currentTheme = localStorage.getItem("theme");
+const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
+
+if (currentTheme === null && prefersDarkScheme) {
+  console.log("nothing set & likes darkmode");
+  document.body.classList.add("dark-theme");
+}
 
 if (currentTheme == "dark") {
   document.body.classList.add("dark-theme");
