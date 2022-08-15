@@ -1,4 +1,9 @@
-<!-- Models -->
+<!-- ############# problems ############# -->
+
+- relationship > do I really need to pass the owner Id to prevent other users from accessing items
+- how do you use the res.locals variable when creating your own middleware
+
+<!-- ############# Models ############# -->
 
 - user
   xx name
@@ -25,7 +30,7 @@
   xx comments / notes
   xx status?? (possible Todo Function?)
 
-<!-- Routes -->
+<!-- ############# Routes ############# -->
 
 <!-- /Home -->
 
@@ -47,6 +52,6 @@
 /item/edit
 /item/delete
 
-# Extras:
+<!-- ############# Extras ############# -->
 
 - darkmode & keeping darkmode between sessions, maybe even storing it in the database or just binding it to preffered colorscheme...
