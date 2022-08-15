@@ -25,9 +25,17 @@ a {
 /************** VARS **************/
 
 :root {
-  --primary-color-light: #4e00ff;
-  /* colors under construction */
-  --primary-color-dark: #261d3c;
+}
+
+body {
+  --text-color: #4e00ff;
+  --bkg-color: #fefff9;
+  --acc-color: #000000;
+}
+body.dark-theme {
+  --text-color: #fefff9;
+  --bkg-color: #261d3c;
+  --acc-color: #000000;
 }
 
 /************** GLOBAL **************/
@@ -35,13 +43,6 @@ a {
 body {
   padding: 50px;
   font: 14px "Sligoil", Helvetica, Arial, sans-serif;
-  color: var(--primary-color);
-}
-
-a {
-  color: #00b7ff;
-}
-
-h1 {
-  color: 15px;
+  color: var(--text-color);
+  background-color: var(--bkg-color);
 }
