@@ -44,6 +44,9 @@ collectionRouter.get("/:collectionId", async (req, res) => {
   if (!isValidCollectionId) {
     return res.status(404).redirect("/collection");
   }
+  if (!req.session.user.collections.includes(collectionId)) {
+    return res.status(404).redirect("/collection");
+  }
 
   const possibleCollection = await CollectionModel.findById(collectionId);
   const { name, description, items, isTodoList, _id } = possibleCollection;
@@ -65,6 +68,7 @@ collectionRouter.get("/:collectionId/edit", async (req, res) => {
   if (!req.session.user.collections.includes(collectionId)) {
     return res.status(404).redirect("/collection");
   }
+
   const collection = await CollectionModel.findById(collectionId);
   const { name, description, items, isTodoList, _id } = collection;
   res.render("collection/edit", { name, description, items, isTodoList, _id });

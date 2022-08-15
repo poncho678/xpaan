@@ -24,6 +24,7 @@ const itemSchema = new Schema(
     ],
     completed: {
       type: Boolean,
+      default: false,
     },
   },
   {

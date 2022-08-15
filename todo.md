@@ -1,10 +1,10 @@
 <!-- Models -->
 
 - user
-  -- name
-  -- email
-  -- password
-  -- collections
+  xx name
+  xx email
+  xx password
+  xx collections
 
 - collection
   xx title
@@ -46,3 +46,7 @@
 /item/:id/
 /item/edit
 /item/delete
+
+# Extras:
+
+- darkmode & keeping darkmode between sessions, maybe even storing it in the database or just binding it to preffered colorscheme...
