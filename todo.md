@@ -4,6 +4,7 @@
   -- name
   -- email
   -- password
+  -- collections
 
 - collection
   xx title
@@ -37,8 +38,9 @@
 <!-- /collection/:id/ -->
 <!-- /collection/add -->
 <!-- /collection/edit -->
+<!-- /collection/delete -->
 
-/collection/delete
+/collection/delete/ built more secure version with form and safety measurements.
 
 /item/add
 /item/:id/
