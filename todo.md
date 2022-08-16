@@ -6,17 +6,16 @@
 
 <!-- ############# Models ############# -->
 
-- user
+<!-- - user
   xx name
   xx email
   xx password
-  xx collections
+  xx collections -->
 
-- collection
+<!-- - collection
   xx title
   xx items
-  xx isTodoList
-  // maybe image, but not necessary
+  xx isTodoList -->
 
 - items
   xx title
@@ -54,5 +53,4 @@
 /item/delete
 
 <!-- ############# Extras ############# -->
-
-- darkmode & keeping darkmode between sessions, maybe even storing it in the database or just binding it to preffered colorscheme...
+  <!-- darkmode & keeping darkmode between sessions, maybe even storing it in the database or just binding it to preffered colorscheme... -->

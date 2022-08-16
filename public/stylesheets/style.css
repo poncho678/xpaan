@@ -30,12 +30,14 @@ a {
 body {
   --text-color: #4e00ff;
   --bkg-color: #fefff9;
-  --acc-color: #000000;
+  --btn-color: #fefff9;
+  --acc-color: #4e00ff;
 }
 body.dark-theme {
   --text-color: #fefff9;
   --bkg-color: #261d3c;
-  --acc-color: #000000;
+  --btn-color: #fefff9;
+  --acc-color: #4e00ff;
 }
 
 /************** GLOBAL **************/
@@ -66,11 +68,21 @@ nav ul {
 }
 
 nav ul li {
-  /* color: var(--bkg-color);
-  background-color: var(--text-color); */
-  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--text-color);
-  box-shadow: 0px 0.35em 0.6em 0px var(--text-color);
+  background-color: var(--btn-color);
+  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
+  box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
   border-radius: 100vh;
+  transition: 0.25s ease;
+}
+
+nav ul li:hover {
+  -webkit-box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
+  box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
+  transform: translateY(0.15em);
+}
+
+body.dark-theme nav ul li {
+  color: var(--bkg-color);
 }
 
 nav ul li a {
