@@ -22,6 +22,10 @@ const itemSchema = new Schema(
         type: String,
       },
     ],
+    collectionId: {
+      type: mongoose.Types.ObjectId,
+      ref: "collectionId",
+    },
     completed: {
       type: Boolean,
       default: false,
