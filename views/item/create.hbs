@@ -8,8 +8,9 @@
 {{! img upload form }}
 <form
   method="post"
-  action="/collection/{{collectionId}}/item/create"
-  id="create-item-form"
+  enctype="multipart/form-data"
+  action="/collection/{{collectionId}}/item/create-img?type=img"
+  id="create-item-img-form"
   class="form-item img"
 >
   <label for="title">
@@ -17,9 +18,19 @@
     <input type="text" name="title" placeholder="title" />
   </label>
 
-  <label for="image">
+  <label for="img">
     Image
-    <input type="file" name="image" />
+    <input type="file" name="img" />
+  </label>
+
+  <label for="text">Text
+    <textarea
+      form="create-item-img-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
   </label>
 
   <button type="submit">Create Item</button>
@@ -28,8 +39,8 @@
 {{! img url form }}
 <form
   method="post"
-  action="/collection/{{collectionId}}/item/create"
-  id="create-item-form"
+  action="/collection/{{collectionId}}/item/create-img-url?type=img-url"
+  id="create-item-img-url-form"
   class="form-item img-url"
 >
   <label for="title">
@@ -37,9 +48,19 @@
     <input type="text" name="title" placeholder="title" />
   </label>
 
-  <label for="imageUrl">
+  <label for="imgUrl">
     Image Url
-    <input type="text" name="imageUrl" />
+    <input type="text" name="imgUrl" />
+  </label>
+
+  <label for="text">Text
+    <textarea
+      form="create-item-img-url-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
   </label>
 
   <button type="submit">Create Item</button>
@@ -49,8 +70,8 @@
 {{! Url form }}
 <form
   method="post"
-  action="/collection/{{collectionId}}/item/create"
-  id="create-item-form"
+  action="/collection/{{collectionId}}/item/create-url?type=url"
+  id="create-item-url-form"
   class="form-item url"
 >
   <label for="title">
@@ -63,14 +84,24 @@
     <input type="text" name="url" />
   </label>
 
+  <label for="text">Text
+    <textarea
+      form="create-item-url-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
+  </label>
+
   <button type="submit">Create Item</button>
 </form>
 
 {{! Text form }}
 <form
   method="post"
-  action="/collection/{{collectionId}}/item/create"
-  id="create-item-form"
+  action="/collection/{{collectionId}}/item/create-text?type=text"
+  id="create-item-text-form"
   class="form-item text"
 >
   <label for="title">
@@ -80,7 +111,7 @@
 
   <label for="text">Text
     <textarea
-      form="create-item-form"
+      form="create-item-text-form"
       name="text"
       id="taid"
       cols="35"
