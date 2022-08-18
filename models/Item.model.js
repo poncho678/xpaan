@@ -5,10 +5,10 @@ const itemSchema = new Schema(
     title: {
       type: String,
     },
-    image: {
+    img: {
       type: String,
     },
-    image_url: {
+    imgUrl: {
       type: String,
     },
     url: {
@@ -29,6 +29,10 @@ const itemSchema = new Schema(
     completed: {
       type: Boolean,
       default: false,
+    },
+    type: {
+      type: String,
+      enum: ["text", "url", "img-url", "img"],
     },
   },
   {
