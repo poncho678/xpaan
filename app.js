@@ -33,6 +33,9 @@ app.use("/auth", authRoutes);
 const collectionRoutes = require("./routes/collection.routes");
 app.use("/collection/", collectionRoutes);
 
+const itemRoutes = require("./routes/item.routes");
+app.use("/collection/:collectionId/item/", itemRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

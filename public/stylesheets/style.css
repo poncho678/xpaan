@@ -49,6 +49,29 @@ body {
   padding: 1rem;
 }
 
+/************** Buttons **************/
+button {
+  padding: 0.5em 1.25em;
+  border-color: transparent;
+}
+
+button,
+nav ul li {
+  background-color: var(--btn-color);
+  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
+  box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
+  border-radius: 100vh;
+  transition: 0.25s ease;
+}
+
+button:hover,
+nav ul li:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
+  box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
+  transform: translateY(0.15em);
+}
+
 /************** NAV **************/
 
 nav {
@@ -67,24 +90,19 @@ nav ul {
   font-size: 1.125rem;
 }
 
-nav ul li {
-  background-color: var(--btn-color);
-  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
-  box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
-  border-radius: 100vh;
-  transition: 0.25s ease;
-}
-
-nav ul li:hover {
-  -webkit-box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
-  box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
-  transform: translateY(0.15em);
-}
-
 body.dark-theme nav ul li {
   color: var(--bkg-color);
 }
 
 nav ul li a {
   padding: 0.5em 1.25em;
+}
+
+/************** Item Form **************/
+form.form-item {
+  display: none;
+}
+form.form-item.show {
+  display: inline-flex;
+  flex-direction: column;
 }

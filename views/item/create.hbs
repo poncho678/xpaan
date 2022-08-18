@@ -1,17 +1,83 @@
 <h2>Create an Item</h2>
-<form method="post" action="" id="create-item-form">
+
+<button class="btn btn-item btn-img" data-form="img">Img</button>
+<button class="btn btn-item btn-img-url" data-form="img-url">Img Url</button>
+<button class="btn btn-item btn-url" data-form="url">Url</button>
+<button class="btn btn-item btn-text" data-form="text">Text</button>
+
+{{! img upload form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create"
+  id="create-item-form"
+  class="form-item img"
+>
   <label for="title">
     Title
     <input type="text" name="title" placeholder="title" />
   </label>
+
   <label for="image">
     Image
     <input type="file" name="image" />
   </label>
+
+  <button type="submit">Create Item</button>
+</form>
+
+{{! img url form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create"
+  id="create-item-form"
+  class="form-item img-url"
+>
+  <label for="title">
+    Title
+    <input type="text" name="title" placeholder="title" />
+  </label>
+
+  <label for="imageUrl">
+    Image Url
+    <input type="text" name="imageUrl" />
+  </label>
+
+  <button type="submit">Create Item</button>
+
+</form>
+
+{{! Url form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create"
+  id="create-item-form"
+  class="form-item url"
+>
+  <label for="title">
+    Title
+    <input type="text" name="title" placeholder="title" />
+  </label>
+
   <label for="url">
-    Url
+    Page Url
     <input type="text" name="url" />
   </label>
+
+  <button type="submit">Create Item</button>
+</form>
+
+{{! Text form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create"
+  id="create-item-form"
+  class="form-item text"
+>
+  <label for="title">
+    Title
+    <input type="text" name="title" placeholder="title" />
+  </label>
+
   <label for="text">Text
     <textarea
       form="create-item-form"
@@ -21,5 +87,7 @@
       wrap="soft"
     >{{text}}</textarea>
   </label>
+
   <button type="submit">Create Item</button>
+
 </form>
