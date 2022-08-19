@@ -62,7 +62,9 @@ collectionRouter.get(
   validateIdAndAuthorization,
   async (req, res) => {
     const { collectionId } = res.locals;
-    const possibleCollection = await CollectionModel.findById(collectionId);
+    const possibleCollection = await CollectionModel.findById(
+      collectionId
+    ).populate("items");
 
     if (!possibleCollection) {
       return res.status(404).redirect("/collection");
