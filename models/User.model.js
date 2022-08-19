@@ -11,7 +11,7 @@ const userSchema = new Schema(
     collections: [
       {
         type: mongoose.Types.ObjectId,
-        ref: "collection",
+        ref: "Collection",
       },
     ],
   },
