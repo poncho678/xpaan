@@ -24,7 +24,7 @@ const itemSchema = new Schema(
     ],
     collectionId: {
       type: mongoose.Types.ObjectId,
-      ref: "collectionId",
+      ref: "Collection",
     },
     completed: {
       type: Boolean,

@@ -1,10 +1,11 @@
 const express = require("express");
 const { isValidObjectId } = require("mongoose");
+const uploadMiddleware = require("../middleware/cloudinary");
 const itemRouter = express.Router({ mergeParams: true });
+const ogs = require("open-graph-scraper");
 const CollectionModel = require("../models/Collection.model");
 const UserModel = require("../models/User.model");
 const ItemModel = require("../models/Item.model");
-const uploadMiddleware = require("../middleware/cloudinary");
 
 // create Item
 itemRouter.get("/create", (req, res) => {
@@ -12,14 +13,22 @@ itemRouter.get("/create", (req, res) => {
 
   res.render("item/create", { collectionId });
 });
+//image route form
 itemRouter.post(
   "/create-img",
   uploadMiddleware.single("img"),
   async (req, res) => {
     const { collectionId } = req.params;
-    const { type } = req.query;
-    const { path: img } = req.file;
     const { title, text } = req.body;
+    const { type } = req.query;
+
+    // if no file is selected... return.
+    if (!req.file) {
+      return res
+        .status(400)
+        .render("item/create", { collectionId, title, text });
+    }
+    const { path: img } = req.file;
 
     const createItem = await ItemModel.create({
       title,
@@ -36,23 +45,107 @@ itemRouter.post(
     res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
   }
 );
+// image url form
+itemRouter.post("/create-img-url", async (req, res) => {
+  const { collectionId } = req.params;
+  const { title, text, imgUrl } = req.body;
+  const { type } = req.query;
+
+  // if no file is selected... return.
+  if (!imgUrl) {
+    return res.status(400).render("item/create", { collectionId, title, text });
+  }
+
+  const createItem = await ItemModel.create({
+    title,
+    text,
+    imgUrl,
+    type,
+    collectionId,
+  });
+
+  await CollectionModel.findByIdAndUpdate(collectionId, {
+    $push: { items: createItem._id },
+  });
+
+  res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
+});
+// text form
+itemRouter.post("/create-text", async (req, res) => {
+  const { collectionId } = req.params;
+  const { title, text } = req.body;
+  const { type } = req.query;
+
+  // if no file is selected... return.
+  if (!text && !title) {
+    return res.status(400).render("item/create", { collectionId, title, text });
+  }
+
+  const createItem = await ItemModel.create({
+    title,
+    text,
+    type,
+    collectionId,
+  });
+
+  await CollectionModel.findByIdAndUpdate(collectionId, {
+    $push: { items: createItem._id },
+  });
+
+  res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
+});
+// url form
+itemRouter.post("/create-url", async (req, res) => {
+  const { collectionId } = req.params;
+  const { title, url } = req.body;
+  const { type } = req.query;
+
+  // if no file is selected... return.
+  if (!url) {
+    ("y");
+    return res.status(400).render("item/create", { collectionId, title, text });
+  }
+
+  const options = { url: url };
+  const { img, text } = await ogs(options, (error, results, response) => {
+    return {
+      url: results.ogUrl,
+      img: results.ogImage.url,
+      text: results.ogDescription,
+    };
+  });
+
+  const createItem = await ItemModel.create({
+    title: url,
+    text,
+    img,
+    url,
+    type,
+    collectionId,
+  });
+
+  await CollectionModel.findByIdAndUpdate(collectionId, {
+    $push: { items: createItem._id },
+  });
+
+  res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
+});
 
 // view Item
 itemRouter.get("/:itemId", async (req, res) => {
   const { itemId, collectionId } = req.params;
 
-  const theItem = ItemModel.findById(itemId);
+  const item = await ItemModel.findById(itemId).populate(
+    "collectionId",
+    "_id isTodoList"
+  );
 
-  if (!theItem) {
+  if (!item) {
     console.log("item not found");
-    res.status(400).redirect(`/collection/${collectionId}`);
+    res.status(400).redirect(`/collection/${collectionId._id}`);
   }
 
-  console.log("item found, but no page available");
-
-  //   find item in model...
-
-  res.render("item/view");
+  res.render("item/view", { item });
 });
 
 // edit Item

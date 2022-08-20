@@ -1,6 +1,6 @@
 <h1>{{name}} ({{items.length}})</h1>
-{{#each items}}
-  yas
-{{/each}}
 <a href="/collection/{{_id}}/item/create">Create Item</a>
-<a href="/collection/{{_id}}/edit">Edit</a>
+{{#each items}}
+  <a href="/collection/{{../_id}}/item/{{_id}}">{{title}}</a>
+{{/each}}
+<a href="/collection/{{_id}}/edit">Edit Collection</a>
