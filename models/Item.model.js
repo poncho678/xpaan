@@ -8,9 +8,6 @@ const itemSchema = new Schema(
     img: {
       type: String,
     },
-    imgUrl: {
-      type: String,
-    },
     url: {
       type: String,
     },
