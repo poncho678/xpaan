@@ -28,6 +28,13 @@ const MongoStore = require("connect-mongo");
 // Connects the mongo uri to maintain the same naming structure
 const MONGO_URI = require("../utils/consts");
 
+// import hbs
+const hbs = require("hbs");
+// register helper function
+hbs.registerHelper("equals", function (arg1, arg2, options) {
+  return arg1 === arg2 ? options.fn(this) : options.inverse(this);
+});
+
 // Middleware configuration
 module.exports = (app) => {
   // In development environment the app logs
