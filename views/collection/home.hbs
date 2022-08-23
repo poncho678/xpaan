@@ -1,10 +1,10 @@
-<h1>all collections</h1>
-
-{{#each collections}}
-  <article>
-    <a href="/collection/{{_id}}">
-      <h3>{{name}} ({{items.length}})</h3>
-
-    </a>
-  </article>
-{{/each}}
+<section id="all-collections">
+  <h1>Your Collections</h1>
+  {{#each collections}}
+    <article>
+      <a href="/collection/{{_id}}">
+        <h3>{{name}} <span class="super">({{items.length}})</span></h3>
+      </a>
+    </article>
+  {{/each}}
+</section>
