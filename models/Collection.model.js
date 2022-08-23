@@ -16,7 +16,7 @@ const collectionSchema = new Schema(
     items: [
       {
         type: mongoose.Types.ObjectId,
-        ref: "item",
+        ref: "Item",
       },
     ],
   },

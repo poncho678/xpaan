@@ -1,3 +1,36 @@
-<h1>{{name}} ({{items.length}})</h1>
+<section id="collection">
+  <h1>{{name}} <span class="super">({{items.length}})</span></h1>
+  <a href="/collection/{{_id}}/item/create">Create Item</a>
+  {{#each items}}
+    <a href="/collection/{{../_id}}/item/{{_id}}">
+      {{#if img}} 
+        {{#equals type "img"}}
+        <article class="collection__item img">
+          img
+        {{/equals}}
+        {{#equals type "img-url"}}
+        <article class="collection__item img-url">
+          imgurl
+        {{/equals}}
+        {{#equals type "url"}}
+        <article class="collection__item url">
+          url
+        {{/equals}}
+        <img src="{{img}}" alt="">
+        </article>
+      {{/if}}
 
-<a href="/collection/{{_id}}/edit">Edit</a>
+      {{#equals type "text"}}
+        <article class="collection__item text">
+          {{title}}
+          {{#if text}}
+            <p>
+            {{text}}
+            </p>
+          {{/if}}
+        </article>
+      {{/equals}}
+    </a>
+  {{/each}}
+  <a href="/collection/{{_id}}/edit">Edit Collection</a>
+</section>

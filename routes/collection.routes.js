@@ -4,6 +4,24 @@ const collectionRouter = express.Router();
 const CollectionModel = require("../models/Collection.model");
 const UserModel = require("../models/User.model");
 
+// Middleware to check if the Id is valid an if the User is Authorized to View the collection...
+function validateIdAndAuthorization(req, res, next) {
+  res.locals.collectionId = req.params.collectionId;
+  const { collectionId } = res.locals;
+  const isValidCollectionId = isValidObjectId(collectionId);
+
+  if (!isValidCollectionId) {
+    console.log("not valid id");
+    return res.status(404).redirect("/collection");
+  }
+  if (!req.session.user.collections.includes(collectionId)) {
+    console.log("user does not own collection");
+    return res.status(404).redirect("/collection");
+  }
+  next();
+}
+
+// View All Collections
 collectionRouter.get("/", async (req, res) => {
   const currentUser = await UserModel.findById(req.session.user._id);
   const collections = await CollectionModel.find({
@@ -12,7 +30,7 @@ collectionRouter.get("/", async (req, res) => {
   res.render("collection/home", { collections });
 });
 
-// create a collection
+// Create A Collection
 collectionRouter.get("/create", (req, res) => {
   res.render("collection/create");
 });
@@ -21,7 +39,6 @@ collectionRouter.post("/create", async (req, res) => {
   isTodoList = isTodoList === "on" ? true : false;
 
   if (!name) {
-    // maybe include error message...
     return res.status(400).render("collection/create", { ...req.body });
   }
 
@@ -34,89 +51,98 @@ collectionRouter.post("/create", async (req, res) => {
   const updateUser = await UserModel.findByIdAndUpdate(req.session.user, {
     $push: { collections: createdCollection._id },
   });
+  // also add collection to currently logged in user???
+  req.session.user.collections.push(createdCollection._id);
 
   res.redirect(`/collection/${createdCollection._id}`);
 });
 
-collectionRouter.get("/:collectionId", async (req, res) => {
-  const { collectionId } = req.params;
-  const isValidCollectionId = isValidObjectId(collectionId);
-  if (!isValidCollectionId) {
-    return res.status(404).redirect("/collection");
-  }
-  if (!req.session.user.collections.includes(collectionId)) {
-    return res.status(404).redirect("/collection");
-  }
+collectionRouter.get(
+  "/:collectionId",
+  validateIdAndAuthorization,
+  async (req, res) => {
+    const { collectionId } = res.locals;
+    const possibleCollection = await CollectionModel.findById(
+      collectionId
+    ).populate("items");
 
-  const possibleCollection = await CollectionModel.findById(collectionId);
-  const { name, description, items, isTodoList, _id } = possibleCollection;
+    if (!possibleCollection) {
+      return res.status(404).redirect("/collection");
+    }
+    const { name, description, items, isTodoList, _id } = possibleCollection;
 
-  if (!possibleCollection) {
-    return res.status(404).redirect("/collection");
+    res.render("collection/view", {
+      name,
+      description,
+      items,
+      isTodoList,
+      _id,
+    });
   }
-
-  res.render("collection/view", { name, description, items, isTodoList, _id });
-});
+);
 
 // edit collection
-collectionRouter.get("/:collectionId/edit", async (req, res) => {
-  const { collectionId } = req.params;
-  const isValidCollectionId = isValidObjectId(collectionId);
-  if (!isValidCollectionId) {
-    return res.status(404).redirect("/collection");
-  }
-  if (!req.session.user.collections.includes(collectionId)) {
-    return res.status(404).redirect("/collection");
-  }
+collectionRouter.get(
+  "/:collectionId/edit",
+  validateIdAndAuthorization,
+  async (req, res) => {
+    const { collectionId } = res.locals;
+    const collection = await CollectionModel.findById(collectionId);
 
-  const collection = await CollectionModel.findById(collectionId);
-  const { name, description, items, isTodoList, _id } = collection;
-  res.render("collection/edit", { name, description, items, isTodoList, _id });
-});
-collectionRouter.post("/:collectionId/edit", async (req, res) => {
-  const { collectionId } = req.params;
-  const isValidCollectionId = isValidObjectId(collectionId);
-  if (!isValidCollectionId) {
-    return res.status(404).redirect("/collection");
+    const { name, description, items, isTodoList, _id } = collection;
+    res.render("collection/edit", {
+      name,
+      description,
+      items,
+      isTodoList,
+      _id,
+    });
   }
-  if (!req.session.user.collections.includes(collectionId)) {
-    return res.status(404).redirect("/collection");
+);
+collectionRouter.post(
+  "/:collectionId/edit",
+  validateIdAndAuthorization,
+  async (req, res) => {
+    const { collectionId } = res.locals;
+    let { name, description, isTodoList } = req.body;
+    isTodoList = isTodoList === "on" ? true : false;
+
+    if (!name) {
+      // maybe include error message...
+      return res.status(400).render("collection/create", { ...req.body });
+    }
+
+    await CollectionModel.findByIdAndUpdate(collectionId, {
+      name,
+      description,
+      isTodoList,
+    });
+
+    res.redirect(`/collection/${collectionId}`);
   }
-  let { name, description, isTodoList } = req.body;
-  isTodoList = isTodoList === "on" ? true : false;
-
-  if (!name) {
-    // maybe include error message...
-    return res.status(400).render("collection/create", { ...req.body });
-  }
-
-  await CollectionModel.findByIdAndUpdate(collectionId, {
-    name,
-    description,
-    isTodoList,
-  });
-
-  res.redirect(`/collection/${collectionId}`);
-});
+);
 
 // delete collection
-collectionRouter.get("/:collectionId/delete", async (req, res) => {
-  const { collectionId } = req.params;
-  const isValidCollectionId = isValidObjectId(collectionId);
-  if (!isValidCollectionId) {
-    return res.status(404).redirect("/collection");
-  }
-  if (!req.session.user.collections.includes(collectionId)) {
-    return res.status(404).redirect("/collection");
-  }
+collectionRouter.get(
+  "/:collectionId/delete",
+  validateIdAndAuthorization,
+  async (req, res) => {
+    const { collectionId } = res.locals;
+    const user = req.session.user._id;
 
-  const user = req.session.user._id;
-  await UserModel.findByIdAndUpdate(user, {
-    $pull: { collections: collectionId },
-  });
-  await CollectionModel.findByIdAndDelete(collectionId);
+    await UserModel.findByIdAndUpdate(user, {
+      $pull: { collections: collectionId },
+    });
+    req.session.user.collections = req.session.user.collections.filter(
+      (item) => {
+        return item !== collectionId;
+      }
+    );
 
-  return res.status(200).redirect("/collection");
-});
+    await CollectionModel.findByIdAndDelete(collectionId);
+
+    return res.status(200).redirect("/collection");
+  }
+);
 
 module.exports = collectionRouter;

@@ -1,25 +1,120 @@
 <h2>Create an Item</h2>
-<form method="post" action="" id="create-item-form">
+
+<button class="btn btn-item btn-img" data-form="img">Img</button>
+<button class="btn btn-item btn-img-url" data-form="img-url">Img Url</button>
+<button class="btn btn-item btn-url" data-form="url">Url</button>
+<button class="btn btn-item btn-text" data-form="text">Text</button>
+
+{{! img upload form }}
+<form
+  method="post"
+  enctype="multipart/form-data"
+  action="/collection/{{collectionId}}/item/create-img?type=img"
+  id="create-item-img-form"
+  class="form-item img"
+>
   <label for="title">
     Title
     <input type="text" name="title" placeholder="title" />
   </label>
-  <label for="image">
+
+  <label for="img">
     Image
-    <input type="file" name="image" />
+    <input type="file" name="img" />
   </label>
-  <label for="url">
-    Url
-    <input type="text" name="url" />
-  </label>
+
   <label for="text">Text
     <textarea
-      form="create-item-form"
+      form="create-item-img-form"
       name="text"
       id="taid"
       cols="35"
       wrap="soft"
     >{{text}}</textarea>
   </label>
+
   <button type="submit">Create Item</button>
+</form>
+
+{{! img url form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create-img-url?type=img-url"
+  id="create-item-img-url-form"
+  class="form-item img-url"
+>
+  <label for="title">
+    Title
+    <input type="text" name="title" placeholder="title" />
+  </label>
+
+  <label for="imgUrl">
+    Image Url
+    <input type="text" name="imgUrl" />
+  </label>
+
+  <label for="text">Text
+    <textarea
+      form="create-item-img-url-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
+  </label>
+
+  <button type="submit">Create Item</button>
+
+</form>
+
+{{! Url form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create-url?type=url"
+  id="create-item-url-form"
+  class="form-item url"
+>
+
+  <label for="url">
+    Page Url
+    <input type="text" name="url" />
+  </label>
+
+  <label for="text">Text
+    <textarea
+      form="create-item-url-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
+  </label>
+
+  <button type="submit">Create Item</button>
+</form>
+
+{{! Text form }}
+<form
+  method="post"
+  action="/collection/{{collectionId}}/item/create-text?type=text"
+  id="create-item-text-form"
+  class="form-item text"
+>
+  <label for="title">
+    Title
+    <input type="text" name="title" placeholder="title" />
+  </label>
+
+  <label for="text">Text
+    <textarea
+      form="create-item-text-form"
+      name="text"
+      id="taid"
+      cols="35"
+      wrap="soft"
+    >{{text}}</textarea>
+  </label>
+
+  <button type="submit">Create Item</button>
+
 </form>

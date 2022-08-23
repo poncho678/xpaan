@@ -1,0 +1,18 @@
+{{! conditional rendering if img, img-url, text, url }}
+{{#with item}}
+
+  {{#if img}}<img src="{{img}}" alt="" />{{/if}}
+  {{#if imgUrl}}<img src="{{imgUrl}}" alt="" />{{/if}}
+
+  <section>
+    <h1>{{title}}</h1>
+    {{#if text}}
+      <article>{{text}}</article>
+    {{/if}}
+    {{#if notes}}
+      {{#each notes}}{{/each}}
+    {{/if}}
+
+  </section>
+
+{{/with}}

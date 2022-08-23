@@ -5,10 +5,7 @@ const itemSchema = new Schema(
     title: {
       type: String,
     },
-    image: {
-      type: String,
-    },
-    image_url: {
+    img: {
       type: String,
     },
     url: {
@@ -22,9 +19,17 @@ const itemSchema = new Schema(
         type: String,
       },
     ],
+    collectionId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Collection",
+    },
     completed: {
       type: Boolean,
       default: false,
+    },
+    type: {
+      type: String,
+      enum: ["text", "url", "img-url", "img"],
     },
   },
   {
