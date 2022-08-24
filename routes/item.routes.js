@@ -163,11 +163,22 @@ itemRouter.get("/:itemId/edit", async (req, res) => {
 });
 
 // delete Item
-itemRouter.get("/:itemId/delete", isLoggedIn, async (req, res) => {
+itemRouter.post("/:itemId/delete", isLoggedIn, async (req, res) => {
   const { itemId, collectionId } = req.params;
+  const { safeToDelete } = req.body;
 
   if (!isValidObjectId(itemId) || !isValidObjectId(collectionId)) {
-    return res.redirect(`/collection/${collectionId}/`);
+    return res.status(400).redirect(`/collection/`);
+  }
+
+  if (!req.session.user.collections.includes(collectionId)) {
+    return res.status(400).redirect("/");
+  }
+
+  if (!safeToDelete || safeToDelete !== "on") {
+    return res
+      .status(400)
+      .redirect(`/collection/${collectionId}/item/${itemId}/edit`);
   }
 
   await ItemModel.findByIdAndDelete(itemId);
