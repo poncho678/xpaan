@@ -27,13 +27,13 @@
   <button type="submit">Save Changes</button>
 </form>
 
-{{!-- this should be a form maybe even its own page, and this also should have some kind of safety measure as in type in the collection name to confirm --}}
-<a href="/collection/{{_id}}/delete">Delete Collection</a>
-
-Are you sure you want to delete this Collection?
-<form action="/collection/{{_id}}/delete" method="post">
-  <label for="confirmName">
-    <input type="text" name="confirmName" />
-    <button type="submit">Delete Collection</button>
+<form
+  action="/collection/{{_id}}/delete"
+  method="post"
+>
+  <label for="safeToDelete">
+    Are you sure you want to delete this Collection?
+    <input type="checkbox" name="safeToDelete" id="" />
   </label>
+  <button type="submit">Delete Collection</button>
 </form>

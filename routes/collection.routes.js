@@ -123,12 +123,21 @@ collectionRouter.post(
 );
 
 // delete collection
-collectionRouter.get(
+collectionRouter.post(
   "/:collectionId/delete",
   validateIdAndAuthorization,
   async (req, res) => {
     const { collectionId } = res.locals;
+    const { safeToDelete } = req.body;
     const user = req.session.user._id;
+
+    if (!safeToDelete || safeToDelete !== "on") {
+      return res.status(400).redirect(`/collection/${collectionId}/edit`);
+    }
+
+    if (!req.session.user.collections.includes(collectionId)) {
+      return res.status(400).redirect("/");
+    }
 
     await UserModel.findByIdAndUpdate(user, {
       $pull: { collections: collectionId },
