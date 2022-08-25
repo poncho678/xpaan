@@ -112,6 +112,42 @@ nav ul li a {
   padding: 0.5em 1.25em;
 }
 
+/************** Collections View **************/
+#collections {
+}
+
+#collections__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#collections__wrapper article {
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: var(--btn-color);
+  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
+  box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
+  color: var(--acc-color);
+}
+
+/************** Single Collection View **************/
+
+#collection__wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+#collection__wrapper .item {
+  order: 1;
+}
+
+#collection__wrapper .item.completed {
+  order: 2;
+  opacity: 0.5;
+}
+
 /************** Item Form **************/
 form.form-item {
   display: none;
