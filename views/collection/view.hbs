@@ -1,8 +1,11 @@
-<section id="collection">
+<main id="collection">
   <h1>{{name}} <span class="super">({{items.length}})</span></h1>
   <a href="/collection/{{_id}}/item/create">Create Item</a>
-  {{#each items}}
-    <a href="/collection/{{../_id}}/item/{{_id}}">
+  <a href="/collection/{{_id}}/edit">Edit Collection</a>
+
+  <section id="collection__wrapper">
+  {{#each (reverseArray items )}}
+    <a href="/collection/{{../_id}}/item/{{_id}}" class="item {{#if completed}}completed{{/if}}">
       {{#if img}} 
         {{#equals type "img"}}
         <article class="collection__item img">
@@ -30,7 +33,14 @@
           {{/if}}
         </article>
       {{/equals}}
+      {{#if ../isTodoList}} 
+        <form action="/collection/{{../_id}}/item/{{_id}}/update-status" method="post">
+          <label for="todo">
+            <input type="checkbox" name="todo" value="true" {{#equals completed true}}checked="true"{{/equals}} id="" onclick="form.submit()">
+          </label>
+        </form>
+      {{/if}}
     </a>
   {{/each}}
-  <a href="/collection/{{_id}}/edit">Edit Collection</a>
-</section>
+  </section>
+</main>

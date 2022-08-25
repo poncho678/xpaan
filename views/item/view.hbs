@@ -13,6 +13,13 @@
       {{#each notes}}{{/each}}
     {{/if}}
     <a href="/collection/{{collectionId._id}}/item/{{_id}}/edit">Edit Item</a>
+          {{#if collectionId.isTodoList}} 
+        <form action="/collection/{{collectionId._id}}/item/{{_id}}/update-status" method="post">
+          <label for="todo">
+            <input type="checkbox" name="todo" value="true" {{#equals completed true}}checked="true"{{/equals}} id="" onclick="form.submit()">
+          </label>
+        </form>
+      {{/if}}
   </section>
 
 {{/with}}

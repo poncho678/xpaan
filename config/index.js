@@ -34,13 +34,17 @@ const hbs = require("hbs");
 hbs.registerHelper("equals", function (arg1, arg2, options) {
   return arg1 === arg2 ? options.fn(this) : options.inverse(this);
 });
-// register string substring
+// register string substring Helper
 hbs.registerHelper("substr", (passedString, length) => {
   if (passedString.length < length) {
     return new hbs.SafeString(passedString);
   }
   const theString = `${passedString.substring(0, length)} …`;
   return new hbs.SafeString(theString);
+});
+// reverse Array Helper
+hbs.registerHelper("reverseArray", (array) => {
+  return array.reverse();
 });
 
 // Middleware configuration
