@@ -189,6 +189,21 @@ itemRouter.post("/:itemId/delete", isLoggedIn, async (req, res) => {
   res.redirect(`/collection/${collectionId}`);
 });
 
-// move to different Collection???
+itemRouter.post("/:itemId/update-status", isLoggedIn, async (req, res) => {
+  const { collectionId, itemId } = req.params;
+  const { todo = false } = req.body;
+
+  if (!isValidObjectId(itemId) || !isValidObjectId(collectionId)) {
+    return res.status(400).redirect(`/collection/`);
+  }
+
+  if (!req.session.user.collections.includes(collectionId)) {
+    return res.status(400).redirect("/");
+  }
+
+  await ItemModel.findByIdAndUpdate(itemId, { completed: todo });
+
+  res.status(200).redirect(`/collection/${collectionId}`);
+});
 
 module.exports = itemRouter;
