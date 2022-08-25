@@ -1,0 +1,10 @@
+<form action="/profile/delete-user">
+  <label>
+    Are you sure you want to do this? Type in your current username to confirm.
+    <input type="text" name="username" />
+  </label>
+  <button type="submit">Delete User</button>
+</form>
+{{#if errorMessage}}
+  {{errorMessage}}
+{{/if}}
