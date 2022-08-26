@@ -9,7 +9,7 @@ const ItemModel = require("../models/Item.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // create Item
-itemRouter.get("/create", (req, res) => {
+itemRouter.get("/create", isLoggedIn, (req, res) => {
   const { collectionId } = req.params;
   res.render("item/create", { collectionId });
 });
@@ -148,7 +148,7 @@ itemRouter.get("/:itemId", isLoggedIn, async (req, res) => {
 });
 
 // edit Item
-itemRouter.get("/:itemId/edit", async (req, res) => {
+itemRouter.get("/:itemId/edit", isLoggedIn, async (req, res) => {
   const { collectionId, itemId } = req.params;
   if (!isValidObjectId(collectionId) || !isValidObjectId(itemId)) {
     return res.status(400).redirect("/");

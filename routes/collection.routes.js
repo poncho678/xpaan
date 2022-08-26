@@ -3,6 +3,7 @@ const { isValidObjectId } = require("mongoose");
 const collectionRouter = express.Router();
 const CollectionModel = require("../models/Collection.model");
 const UserModel = require("../models/User.model");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 // Middleware to check if the Id is valid an if the User is Authorized to View the collection...
 function validateIdAndAuthorization(req, res, next) {
@@ -22,7 +23,7 @@ function validateIdAndAuthorization(req, res, next) {
 }
 
 // View All Collections
-collectionRouter.get("/", async (req, res) => {
+collectionRouter.get("/", isLoggedIn, async (req, res) => {
   const currentUser = await UserModel.findById(req.session.user._id);
   const collections = await CollectionModel.find({
     _id: { $in: currentUser.collections },
@@ -31,10 +32,10 @@ collectionRouter.get("/", async (req, res) => {
 });
 
 // Create A Collection
-collectionRouter.get("/create", (req, res) => {
+collectionRouter.get("/create", isLoggedIn, (req, res) => {
   res.render("collection/create");
 });
-collectionRouter.post("/create", async (req, res) => {
+collectionRouter.post("/create", isLoggedIn, async (req, res) => {
   let { name, description, isTodoList } = req.body;
   isTodoList = isTodoList === "on" ? true : false;
 
@@ -59,6 +60,7 @@ collectionRouter.post("/create", async (req, res) => {
 
 collectionRouter.get(
   "/:collectionId",
+  isLoggedIn,
   validateIdAndAuthorization,
   async (req, res) => {
     const { collectionId } = res.locals;
@@ -84,6 +86,7 @@ collectionRouter.get(
 // edit collection
 collectionRouter.get(
   "/:collectionId/edit",
+  isLoggedIn,
   validateIdAndAuthorization,
   async (req, res) => {
     const { collectionId } = res.locals;
@@ -101,6 +104,7 @@ collectionRouter.get(
 );
 collectionRouter.post(
   "/:collectionId/edit",
+  isLoggedIn,
   validateIdAndAuthorization,
   async (req, res) => {
     const { collectionId } = res.locals;
@@ -125,6 +129,7 @@ collectionRouter.post(
 // delete collection
 collectionRouter.post(
   "/:collectionId/delete",
+  isLoggedIn,
   validateIdAndAuthorization,
   async (req, res) => {
     const { collectionId } = res.locals;

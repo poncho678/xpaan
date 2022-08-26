@@ -26,21 +26,22 @@ async function checkIfUserExists(req, res, next) {
 }
 
 // perform check on every profile call
+profileRouter.use(isLoggedIn);
 profileRouter.use(checkIfUserExists);
 
 // main profile page
-profileRouter.get("/", isLoggedIn, async (req, res) => {
+profileRouter.get("/", async (req, res) => {
   const { username } = res.locals.user;
   return res.render("profile/profile", { username });
 });
 
 // update username
-profileRouter.get("/update-username", isLoggedIn, async (req, res) => {
+profileRouter.get("/update-username", async (req, res) => {
   const { username } = res.locals.user;
   return res.render("profile/update-username", { username });
 });
 
-profileRouter.post("/update-username", isLoggedIn, async (req, res) => {
+profileRouter.post("/update-username", async (req, res) => {
   const { username, _id } = res.locals.user;
   const { newUsername } = req.body;
 
@@ -82,10 +83,10 @@ profileRouter.post("/update-username", isLoggedIn, async (req, res) => {
 });
 
 // update password
-profileRouter.get("/update-password", isLoggedIn, (req, res) => {
+profileRouter.get("/update-password", (req, res) => {
   return res.render("profile/update-password");
 });
-profileRouter.post("/update-password", isLoggedIn, async (req, res) => {
+profileRouter.post("/update-password", async (req, res) => {
   const { user } = res.locals;
 
   const {
@@ -128,13 +129,14 @@ profileRouter.post("/update-password", isLoggedIn, async (req, res) => {
 });
 
 // delete user
-profileRouter.get("/delete-user", isLoggedIn, (req, res) => {
+profileRouter.get("/delete-user", (req, res) => {
   const { username, _id } = res.locals.user;
+  console.log(username);
   return res.render("profile/delete-user", { username });
 });
 
-profileRouter.post("/delete-user", isLoggedIn, (req, res) => {
-  const { username, _id } = res.locals.user;
+profileRouter.post("/delete-user", async (req, res) => {
+  const { username, _id, collections } = res.locals.user;
   const { confirmUsername } = req.body;
 
   if (!confirmUsername) {
@@ -150,7 +152,18 @@ profileRouter.post("/delete-user", isLoggedIn, (req, res) => {
     });
   }
 
-  return res.render("profile/delete-user");
+  const allItems = await ItemModel.deleteMany({ collectionId: collections });
+  // const allCollections = await CollectionModel.deleteMany({ _id: collections });
+  const deleteUser = await User.findByIdAndDelete({ _id });
+
+  req.session.destroy((err) => {
+    if (err) {
+      return res
+        .status(500)
+        .render("auth/logout", { errorMessage: err.message });
+    }
+    res.redirect("/");
+  });
 });
 
 module.exports = profileRouter;

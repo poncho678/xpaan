@@ -1,7 +1,8 @@
-<form action="/profile/delete-user">
+<form action="/profile/delete-user" method="post">
   <label>
-    Are you sure you want to do this? Type in your current username to confirm.
-    <input type="text" name="username" />
+    {{username}}, are you sure you want to do delete your account? Enter in your
+    current username to confirm.
+    <input type="text" name="confirmUsername" />
   </label>
   <button type="submit">Delete User</button>
 </form>
