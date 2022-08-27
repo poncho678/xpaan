@@ -9,17 +9,15 @@
       {{#if img}} 
         {{#equals type "img"}}
         <article class="collection__item img">
-          img
         {{/equals}}
         {{#equals type "img-url"}}
         <article class="collection__item img-url">
-          imgurl
         {{/equals}}
         {{#equals type "url"}}
         <article class="collection__item url">
-          url
         {{/equals}}
         <img src="{{img}}" alt="">
+        {{title}}
         </article>
       {{/if}}
 

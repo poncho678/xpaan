@@ -158,8 +158,27 @@ itemRouter.get("/:itemId/edit", isLoggedIn, async (req, res) => {
   if (!item) {
     return res.status(400).redirect(`/collection/${collectionId}/`);
   }
-
   res.render("item/edit", item);
+});
+itemRouter.post("/:itemId/edit", isLoggedIn, async (req, res) => {
+  const { collectionId, itemId } = req.params;
+  if (!isValidObjectId(collectionId) || !isValidObjectId(itemId)) {
+    return res.status(400).redirect("/");
+  }
+  const item = await ItemModel.findById(itemId);
+
+  if (!item) {
+    return res.status(400).redirect(`/collection/${collectionId}/`);
+  }
+  if (!req.session.user.collections.includes(collectionId)) {
+    return res.status(400).redirect("/");
+  }
+
+  const { title, text, url, img } = req.body;
+
+  await ItemModel.findByIdAndUpdate(itemId, { title, text, url, img });
+
+  res.redirect(`/collection/${collectionId}/item/${itemId}`);
 });
 
 // delete Item
