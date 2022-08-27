@@ -4,10 +4,9 @@ const router = require("express").Router();
 router.get("/", (req, res, next) => {
   // if user is logged in, redirect to collection view
   if (req.session.user) {
-    res.redirect("/collection");
+    return res.redirect("/collection");
   }
-
-  res.render("index");
+  return res.render("index");
 });
 
 module.exports = router;
