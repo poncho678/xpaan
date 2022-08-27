@@ -107,16 +107,18 @@ itemRouter.post("/create-url", isLoggedIn, async (req, res) => {
   }
 
   const options = { url: url };
-  const { img, text } = await ogs(options, (error, results, response) => {
-    return {
-      url: results.ogUrl,
-      img: results.ogImage.url,
-      text: results.ogDescription,
-    };
-  });
+  const { img = "", text = "" } = await ogs(
+    options,
+    (error, results, response) => {
+      return {
+        img: results.ogImage.url,
+        text: results.ogDescription,
+      };
+    }
+  );
 
   const createItem = await ItemModel.create({
-    title: url,
+    title: title ? title : url,
     text,
     img,
     url,
