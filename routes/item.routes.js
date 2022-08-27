@@ -106,7 +106,7 @@ itemRouter.post("/create-url", isLoggedIn, async (req, res) => {
     return res.status(400).render("item/create", { collectionId, title, text });
   }
 
-  const options = { url: url };
+  const options = { url: url, downloadLimit: 10000000000 };
   const { img = "", text = "" } = await ogs(
     options,
     (error, results, response) => {
