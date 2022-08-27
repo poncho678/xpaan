@@ -1,22 +1,32 @@
 const express = require("express");
-const { isValidObjectId } = require("mongoose");
-const uploadMiddleware = require("../middleware/cloudinary");
 const itemRouter = express.Router({ mergeParams: true });
+const { isValidObjectId } = require("mongoose");
 const ogs = require("open-graph-scraper");
+
+// required for image upload
+const { v2: cloudinary } = require("cloudinary");
+const { cloudinaryFolder } = require("../utils/consts");
+
+// middleware
+const uploadMiddleware = require("../middleware/cloudinary");
+const isLoggedIn = require("../middleware/isLoggedIn");
+
+// models
 const CollectionModel = require("../models/Collection.model");
 const UserModel = require("../models/User.model");
 const ItemModel = require("../models/Item.model");
-const isLoggedIn = require("../middleware/isLoggedIn");
+
+// Run this before every Route
+itemRouter.use(isLoggedIn);
 
 // create Item
-itemRouter.get("/create", isLoggedIn, (req, res) => {
+itemRouter.get("/create", (req, res) => {
   const { collectionId } = req.params;
   res.render("item/create", { collectionId });
 });
 //image route form
 itemRouter.post(
   "/create-img",
-  isLoggedIn,
   uploadMiddleware.single("img"),
   async (req, res) => {
     const { collectionId } = req.params;
@@ -47,7 +57,7 @@ itemRouter.post(
   }
 );
 // image url form
-itemRouter.post("/create-img-url", isLoggedIn, async (req, res) => {
+itemRouter.post("/create-img-url", async (req, res) => {
   const { collectionId } = req.params;
   const { title, text, imgUrl } = req.body;
   const { type } = req.query;
@@ -57,10 +67,15 @@ itemRouter.post("/create-img-url", isLoggedIn, async (req, res) => {
     return res.status(400).render("item/create", { collectionId, title, text });
   }
 
+  const newImage = await cloudinary.uploader.upload(imgUrl, {
+    folder: cloudinaryFolder,
+  });
+  console.log(newImage);
+
   const createItem = await ItemModel.create({
     title,
     text,
-    img: imgUrl,
+    img: newImage.url ? newImage.url : imgUrl,
     type,
     collectionId,
   });
@@ -72,7 +87,7 @@ itemRouter.post("/create-img-url", isLoggedIn, async (req, res) => {
   res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
 });
 // text form
-itemRouter.post("/create-text", isLoggedIn, async (req, res) => {
+itemRouter.post("/create-text", async (req, res) => {
   const { collectionId } = req.params;
   const { title, text } = req.body;
   const { type } = req.query;
@@ -96,7 +111,7 @@ itemRouter.post("/create-text", isLoggedIn, async (req, res) => {
   res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
 });
 // url form
-itemRouter.post("/create-url", isLoggedIn, async (req, res) => {
+itemRouter.post("/create-url", async (req, res) => {
   const { collectionId } = req.params;
   const { title, url } = req.body;
   const { type } = req.query;
@@ -106,17 +121,29 @@ itemRouter.post("/create-url", isLoggedIn, async (req, res) => {
     return res.status(400).render("item/create", { collectionId, title, text });
   }
 
-  const options = { url: url };
-  const { img, text } = await ogs(options, (error, results, response) => {
-    return {
-      url: results.ogUrl,
-      img: results.ogImage.url,
-      text: results.ogDescription,
-    };
-  });
+  const options = { url: url, timeout: 50000, downloadLimit: 10000000000 };
+  let { img = "", text = "" } = await ogs(
+    options,
+    (error, results, response) => {
+      if (error) {
+        return { img: "", text: "" };
+      }
+      return {
+        img: results.ogImage.url,
+        text: results.ogDescription,
+      };
+    }
+  );
+
+  if (img) {
+    const newImage = await cloudinary.uploader.upload(img, {
+      folder: cloudinaryFolder,
+    });
+    img = newImage.url;
+  }
 
   const createItem = await ItemModel.create({
-    title: url,
+    title: title ? title : url,
     text,
     img,
     url,
@@ -132,7 +159,7 @@ itemRouter.post("/create-url", isLoggedIn, async (req, res) => {
 });
 
 // view Item
-itemRouter.get("/:itemId", isLoggedIn, async (req, res) => {
+itemRouter.get("/:itemId", async (req, res) => {
   const { itemId, collectionId } = req.params;
 
   const item = await ItemModel.findById(itemId).populate(
@@ -148,7 +175,7 @@ itemRouter.get("/:itemId", isLoggedIn, async (req, res) => {
 });
 
 // edit Item
-itemRouter.get("/:itemId/edit", isLoggedIn, async (req, res) => {
+itemRouter.get("/:itemId/edit", async (req, res) => {
   const { collectionId, itemId } = req.params;
   if (!isValidObjectId(collectionId) || !isValidObjectId(itemId)) {
     return res.status(400).redirect("/");
@@ -160,7 +187,7 @@ itemRouter.get("/:itemId/edit", isLoggedIn, async (req, res) => {
   }
   res.render("item/edit", item);
 });
-itemRouter.post("/:itemId/edit", isLoggedIn, async (req, res) => {
+itemRouter.post("/:itemId/edit", async (req, res) => {
   const { collectionId, itemId } = req.params;
   if (!isValidObjectId(collectionId) || !isValidObjectId(itemId)) {
     return res.status(400).redirect("/");
@@ -182,7 +209,7 @@ itemRouter.post("/:itemId/edit", isLoggedIn, async (req, res) => {
 });
 
 // delete Item
-itemRouter.post("/:itemId/delete", isLoggedIn, async (req, res) => {
+itemRouter.post("/:itemId/delete", async (req, res) => {
   const { itemId, collectionId } = req.params;
   const { safeToDelete } = req.body;
 
@@ -200,6 +227,17 @@ itemRouter.post("/:itemId/delete", isLoggedIn, async (req, res) => {
       .redirect(`/collection/${collectionId}/item/${itemId}/edit`);
   }
 
+  const { img } = await ItemModel.findById(itemId);
+  if (img) {
+    const public_id = img.slice(
+      img.indexOf(cloudinaryFolder),
+      img.lastIndexOf(".")
+    );
+    await cloudinary.uploader.destroy(public_id, function (error, result) {
+      console.log(result, error);
+    });
+  }
+
   await ItemModel.findByIdAndDelete(itemId);
   await CollectionModel.findByIdAndUpdate(collectionId, {
     $pull: { items: itemId },
@@ -208,7 +246,7 @@ itemRouter.post("/:itemId/delete", isLoggedIn, async (req, res) => {
   res.redirect(`/collection/${collectionId}`);
 });
 
-itemRouter.post("/:itemId/update-status", isLoggedIn, async (req, res) => {
+itemRouter.post("/:itemId/update-status", async (req, res) => {
   const { collectionId, itemId } = req.params;
   const { todo = false } = req.body;
 
