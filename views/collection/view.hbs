@@ -4,41 +4,58 @@
   <a href="/collection/{{_id}}/edit">Edit Collection</a>
 
   <section id="collection__wrapper">
-  {{#each (reverseArray items )}}
-    <a href="/collection/{{../_id}}/item/{{_id}}" class="item {{#if ../isTodoList}}{{#if completed}}completed{{/if}}{{/if}}">
-      {{#if img}} 
-        {{#equals type "img"}}
-        <article class="collection__item img">
-        {{/equals}}
-        {{#equals type "img-url"}}
-        <article class="collection__item img-url">
-        {{/equals}}
-        {{#equals type "url"}}
-        <article class="collection__item url">
-        {{/equals}}
+    {{#each (reverseArray items )}}
+    <a href="/collection/{{../_id}}/item/{{_id}}"
+      class="item {{#if ../isTodoList}}{{#if completed}}completed{{/if}}{{/if}}">
+
+      {{#equals type "img"}}
+      <article class="collection__item img">
+        {{#if img}}
         <img src="{{img}}" alt="">
+        {{/if}}
         {{title}}
-        </article>
-      {{/if}}
+      </article>
+      {{/equals}}
+
+      {{#equals type "img-url"}}
+      <article class="collection__item img-url">
+        {{#if img}}
+        <img src="{{img}}" alt="">
+        {{/if}}
+        {{title}}
+      </article>
+      {{/equals}}
+
+      {{#equals type "url"}}
+      <article class="collection__item url">
+        {{#if img}}
+        <img src="{{img}}" alt="">
+        {{/if}}
+        {{title}}
+      </article>
+      {{/equals}}
 
       {{#equals type "text"}}
-        <article class="collection__item text">
-          {{title}}
-          {{#if text}}
-            <p>
-            {{text}}
-            </p>
-          {{/if}}
-        </article>
+      <article class="collection__item text">
+        {{title}}
+        {{#if text}}
+        <p>
+          {{text}}
+        </p>
+        {{/if}}
+      </article>
       {{/equals}}
-      {{#if ../isTodoList}} 
-        <form action="/collection/{{../_id}}/item/{{_id}}/update-status" method="post">
-          <label for="todo">
-            <input type="checkbox" name="todo" value="true" {{#equals completed true}}checked="true"{{/equals}} id="" onclick="form.submit()">
-          </label>
-        </form>
+
+      {{#if ../isTodoList}}
+      <form action="/collection/{{../_id}}/item/{{_id}}/update-status" method="post">
+        <label for="todo">
+          <input type="checkbox" name="todo" value="true" {{#equals completed true}}checked="true" {{/equals}} id=""
+            onclick="form.submit()">
+        </label>
+      </form>
       {{/if}}
+      
     </a>
-  {{/each}}
+    {{/each}}
   </section>
 </main>
