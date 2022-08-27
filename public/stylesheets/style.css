@@ -48,7 +48,7 @@ body {
 }
 body.dark-theme {
   --text-color: #fefff9;
-  --bkg-color: #261d3c;
+  --bkg-color: #28203b;
   --btn-color: #fefff9;
   --acc-color: #4e00ff;
 }
@@ -136,8 +136,8 @@ nav ul li a {
 /************** Single Collection View **************/
 
 #collection__wrapper {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
 }
 
@@ -148,6 +148,10 @@ nav ul li a {
 #collection__wrapper .item.completed {
   order: 2;
   opacity: 0.5;
+}
+
+#collection__wrapper .item img {
+  width: 100%;
 }
 
 #collection__wrapper article {

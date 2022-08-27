@@ -5,7 +5,7 @@
 
   <section id="collection__wrapper">
   {{#each (reverseArray items )}}
-    <a href="/collection/{{../_id}}/item/{{_id}}" class="item {{#if completed}}completed{{/if}}">
+    <a href="/collection/{{../_id}}/item/{{_id}}" class="item {{#if ../isTodoList}}{{#if completed}}completed{{/if}}{{/if}}">
       {{#if img}} 
         {{#equals type "img"}}
         <article class="collection__item img">
