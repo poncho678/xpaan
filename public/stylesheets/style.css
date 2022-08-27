@@ -123,12 +123,14 @@ nav ul li a {
 }
 
 #collections__wrapper article {
-  padding: 1rem;
   border-radius: 1rem;
   background-color: var(--btn-color);
   -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
   box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
   color: var(--acc-color);
+}
+#collections__wrapper article a {
+  padding: 1rem;
 }
 
 /************** Single Collection View **************/
@@ -146,6 +148,11 @@ nav ul li a {
 #collection__wrapper .item.completed {
   order: 2;
   opacity: 0.5;
+}
+
+#collection__wrapper article {
+  display: flex;
+  flex-direction: column;
 }
 
 /************** Item Form **************/

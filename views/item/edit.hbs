@@ -1,5 +1,5 @@
 <form
-  action="/collection/{{collectionId._id}}/item/{{_id}}"
+  action="/collection/{{collectionId._id}}/item/{{_id}}/edit"
   method="post"
   id="edit-item-form"
 >
@@ -8,17 +8,17 @@
     <input type="text" name="title" placeholder="title" value="{{title}}" />
   </label>
 
-  {{#equals type "img"}}
+  {{!-- {{#equals type "img"}}
     <label for="img">
       Image
       <input type="file" name="img" />
     </label>
-  {{/equals}}
+  {{/equals}} --}}
 
   {{#equals type "img-url"}}
-    <label for="imgUrl">
+    <label for="img">
       Image Url
-      <input type="url" name="imgUrl" value="{{img}}" />
+      <input type="url" name="img" value="{{img}}" />
     </label>
   {{/equals}}
 
