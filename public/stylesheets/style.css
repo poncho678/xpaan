@@ -147,7 +147,7 @@ nav ul li a {
 
 #collection__wrapper .item.completed {
   order: 2;
-  opacity: 0.5;
+  opacity: 0.25;
 }
 
 #collection__wrapper .item img {
