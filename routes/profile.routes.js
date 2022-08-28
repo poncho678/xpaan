@@ -1,6 +1,9 @@
 const express = require("express");
 const profileRouter = express.Router();
 
+const { v2: cloudinary } = require("cloudinary");
+const { cloudinaryFolder } = require("../utils/consts");
+
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const {
@@ -131,7 +134,6 @@ profileRouter.post("/update-password", async (req, res) => {
 // delete user
 profileRouter.get("/delete-user", (req, res) => {
   const { username, _id } = res.locals.user;
-  console.log(username);
   return res.render("profile/delete-user", { username });
 });
 
@@ -152,9 +154,29 @@ profileRouter.post("/delete-user", async (req, res) => {
     });
   }
 
-  const allItems = await ItemModel.deleteMany({ collectionId: collections });
-  // const allCollections = await CollectionModel.deleteMany({ _id: collections });
-  const deleteUser = await User.findByIdAndDelete({ _id });
+  const allImages = await ItemModel.find({
+    collectionId: collections,
+    img: { $nin: [null, ""] },
+  });
+  await allImages.map(async (item) => {
+    const public_id = item.img.slice(
+      item.img.indexOf(cloudinaryFolder),
+      item.img.lastIndexOf(".")
+    );
+
+    if (public_id) {
+      return await cloudinary.uploader.destroy(
+        public_id,
+        function (error, result) {
+          console.log(result, error);
+        }
+      );
+    }
+  });
+
+  await ItemModel.deleteMany({ collectionId: collections });
+  await CollectionModel.deleteMany({ _id: collections });
+  await User.findByIdAndDelete({ _id });
 
   req.session.destroy((err) => {
     if (err) {
@@ -162,7 +184,7 @@ profileRouter.post("/delete-user", async (req, res) => {
         .status(500)
         .render("auth/logout", { errorMessage: err.message });
     }
-    res.redirect("/");
+    return res.redirect("/");
   });
 });
 
