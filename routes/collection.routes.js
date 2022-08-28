@@ -1,8 +1,14 @@
 const express = require("express");
 const { isValidObjectId } = require("mongoose");
 const collectionRouter = express.Router();
+
+// image upload...
+const { v2: cloudinary } = require("cloudinary");
+const { cloudinaryFolder } = require("../utils/consts");
+
 const CollectionModel = require("../models/Collection.model");
 const UserModel = require("../models/User.model");
+const ItemModel = require("../models/Item.model");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // Middleware to check if the Id is valid an if the User is Authorized to View the collection...
@@ -12,11 +18,9 @@ function validateIdAndAuthorization(req, res, next) {
   const isValidCollectionId = isValidObjectId(collectionId);
 
   if (!isValidCollectionId) {
-    console.log("not valid id");
     return res.status(404).redirect("/collection");
   }
   if (!req.session.user.collections.includes(collectionId)) {
-    console.log("user does not own collection");
     return res.status(404).redirect("/collection");
   }
   next();
@@ -153,6 +157,28 @@ collectionRouter.post(
       }
     );
 
+    const allImages = await ItemModel.find({
+      collectionId: collectionId,
+      img: { $nin: [null, ""] },
+    });
+
+    await allImages.map(async (item) => {
+      const public_id = item.img.slice(
+        item.img.indexOf(cloudinaryFolder),
+        item.img.lastIndexOf(".")
+      );
+
+      if (public_id) {
+        return await cloudinary.uploader.destroy(
+          public_id,
+          function (error, result) {
+            console.log(result, error);
+          }
+        );
+      }
+    });
+
+    await ItemModel.deleteMany({ collectionId: collectionId });
     await CollectionModel.findByIdAndDelete(collectionId);
 
     return res.status(200).redirect("/collection");
