@@ -70,7 +70,6 @@ itemRouter.post("/create-img-url", async (req, res) => {
   const newImage = await cloudinary.uploader.upload(imgUrl, {
     folder: cloudinaryFolder,
   });
-  console.log(newImage);
 
   const createItem = await ItemModel.create({
     title,
