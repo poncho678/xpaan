@@ -46,3 +46,10 @@ themeToggle.addEventListener("click", function (e) {
   }
   localStorage.setItem("theme", theme);
 });
+
+// ####################### Footer TOGGLE #######################
+
+const footer = document.querySelector("footer");
+footer.addEventListener("click", (e) => {
+  e.target.classList.toggle("active");
+});
