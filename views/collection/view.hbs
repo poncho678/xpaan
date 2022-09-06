@@ -1,7 +1,14 @@
 <main id="collection">
-  <h1><a href="/collection/" class="inline">&#8592;</a> {{name}} <span class="super">({{items.length}})</span></h1>
-  <a href="/collection/{{_id}}/item/create">Create Item</a>
-  <a href="/collection/{{_id}}/edit">Edit Collection</a>
+  <header class="nav__secondary">
+    <h1><a href="/collection/" class="inline">&#8592;</a> {{name}}<span class="super">({{items.length}})</span></h1>
+    <p>{{description}}</p>
+    <nav>
+      <ul>
+        <li><a href="/collection/{{_id}}/item/create">Create Item</a></li>
+        <li><a href="/collection/{{_id}}/edit">Edit Collection</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <section id="collection__wrapper">
     {{#each (reverseArray items )}}
