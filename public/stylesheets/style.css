@@ -14,30 +14,13 @@ a {
   text-decoration: none;
 }
 
-/************** TYPOGRAPHY **************/
-
-@font-face {
-  font-family: "Sligoil";
-  src: url("../fonts/Sligoil-Micro.woff2") format("woff2"),
-    url("../fonts/Sligoil-Micro.woff") format("woff");
-}
-
-h1 {
-}
-
-h2 {
-}
-
-.super {
-  position: relative;
-  top: -0.45em;
-  font-size: 0.65em;
-  /* vertical-align: super; */
-}
-
 /************** VARS **************/
 
 :root {
+  --text-xs: 0.75rem;
+  --text-s: 1rem;
+  --text-m: 1.25rem;
+  --text-l: 2rem;
 }
 
 body {
@@ -48,92 +31,239 @@ body {
 }
 body.dark-theme {
   --text-color: #fefff9;
-  --bkg-color: #28203b;
+  --bkg-color: #373340;
   --btn-color: #fefff9;
-  --acc-color: #4e00ff;
+  --acc-color: #949494;
+}
+
+/************** TYPOGRAPHY **************/
+
+@font-face {
+  font-family: "Sligoil";
+  src: url("../fonts/Sligoil-Micro.woff2") format("woff2"),
+    url("../fonts/Sligoil-Micro.woff") format("woff");
+}
+
+html {
+  font: 16px "Sligoil", Helvetica, Arial, sans-serif;
+}
+
+* {
+  font-weight: 200;
+}
+
+h1 {
+  font-size: var(--text-l);
+}
+
+h3,
+.text-s {
+  font-size: var(--text-xs);
+}
+
+nav.nav__primary ul {
+  font-size: var(--text-m);
+}
+
+.title {
+  -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
+}
+
+.inline {
+  display: contents;
+}
+
+.super {
+  position: relative;
+  top: -0.45em;
+  font-size: 0.65em;
+  /* vertical-align: super; */
 }
 
 /************** GLOBAL **************/
 
 body {
-  font: 14px "Sligoil", Helvetica, Arial, sans-serif;
   color: var(--text-color);
   background-color: var(--bkg-color);
   padding: 1rem;
+  min-height: 100vh;
+}
+
+main,
+main section {
+  margin-top: 1rem;
+}
+
+/************** Dropshadow **************/
+#collections__wrapper article,
+main#collection,
+main#item {
+  -webkit-box-shadow: 0px 0.35em 0.6em -0.1em var(--acc-color);
+  box-shadow: 0px 0.35em 0.6em -0.1em var(--acc-color);
 }
 
 /************** Buttons **************/
+
+.btn-toggle {
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 100vh;
+  background-color: var(--text-color);
+}
+
 button {
   padding: 0.5em 1.25em;
+  border-radius: 100vh;
+  font-family: inherit;
+  color: var(--text-color);
   border-color: transparent;
+}
+body.dark-theme button {
+  color: var(--bkg-color);
+}
+
+nav.nav__primary ul li,
+.nav__secondary ul li {
+  border-radius: 100vh;
 }
 
 button,
-nav ul li {
+nav.nav__primary ul li {
   background-color: var(--btn-color);
-  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
-  box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
-  border-radius: 100vh;
-  transition: 0.25s ease;
+  -webkit-box-shadow: 0px 0.35em 0.6em -0.2em var(--acc-color);
+  box-shadow: 0px 0.35em 0.6em -0.2em var(--acc-color);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 button:hover,
-nav ul li:hover {
+nav.nav__primary ul li:hover {
   cursor: pointer;
-  background-color: #ffffff;
-  -webkit-box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
-  box-shadow: 0px 0.35em 0.45em 0px var(--acc-color);
+  -webkit-box-shadow: 0px 0.35em 0.45em -0.2em var(--acc-color);
+  box-shadow: 0px 0.35em 0.45em -0.2em var(--acc-color);
   transform: translateY(0.15em);
+}
+
+.nav__secondary ul li {
+  border: 1px solid var(--text-color);
 }
 
 /************** NAV **************/
 
-nav {
+nav.nav__primary,
+nav ul {
   display: flex;
+  gap: 1rem;
+}
+
+header.nav__secondary {
+  display: flex;
+  gap: 0.5rem;
+  flex-direction: column;
+}
+
+nav.nav__primary {
   justify-content: space-between;
+  align-items: center;
 }
 
 .nav--logo {
-  font-size: 2rem;
+  font-size: var(--text-l);
 }
 
 nav ul {
-  display: flex;
   list-style: none;
-  gap: 1.5rem;
-  font-size: 1.125rem;
 }
 
 body.dark-theme nav ul li {
   color: var(--bkg-color);
 }
+body.dark-theme .nav__secondary ul li {
+  color: var(--text-color);
+}
 
 nav ul li a {
-  padding: 0.5em 1.25em;
+  padding: 0.4em 1em;
+}
+
+/************** FORMs **************/
+
+input[type="checkbox"] {
+  z-index: 0;
+  -webkit-appearance: none;
+}
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+input[type="checkbox"]::before {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100vh;
+  border: 1px solid var(--text-color);
+  display: block;
+  content: "";
+  z-index: 5;
+  transition: background-color 0.25s ease;
+}
+
+input[type="checkbox"]:hover::before {
+  background-color: var(--text-color);
+}
+
+/* input[type="checkbox"]:checked:hover::before {
+  background-color: var(--bkg-color);
+} */
+
+input[type="checkbox"]:checked::before {
+  background-color: var(--text-color);
+}
+
+/************** Home **************/
+
+#home__logo {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 33vw;
+  line-height: 1;
 }
 
 /************** Collections View **************/
-#collections {
-}
 
 #collections__wrapper {
   display: flex;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
 }
 
 #collections__wrapper article {
-  border-radius: 1rem;
   background-color: var(--btn-color);
-  -webkit-box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
-  box-shadow: 0px 0.35em 0.6em 0px var(--acc-color);
-  color: var(--acc-color);
+  color: var(--text-color);
+  border-radius: 1rem;
 }
+
+body.dark-theme #collections__wrapper article {
+  color: var(--bkg-color);
+}
+
 #collections__wrapper article a {
   padding: 1rem;
 }
 
 /************** Single Collection View **************/
+
+main#collection {
+  padding: 1rem;
+  border-radius: 1rem;
+}
 
 #collection__wrapper {
   display: grid;
@@ -154,8 +284,19 @@ nav ul li a {
   width: 100%;
 }
 
-#collection__wrapper article {
+#collection__wrapper article,
+.collection__item__info,
+.collection__item__text {
   display: flex;
+  gap: 0.5em;
+}
+
+.collection__item__info {
+  justify-content: space-between;
+}
+
+#collection__wrapper article,
+.collection__item__text {
   flex-direction: column;
 }
 
@@ -166,4 +307,23 @@ form.form-item {
 form.form-item.show {
   display: inline-flex;
   flex-direction: column;
+}
+
+/************** Item View **************/
+
+main#item {
+  padding: 1rem;
+  border-radius: 1rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+}
+
+main#item img {
+  max-width: 100%;
+}
+
+main#item section {
+  padding: 0;
+  margin: 0;
 }
