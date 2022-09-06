@@ -121,18 +121,20 @@ itemRouter.post("/create-url", async (req, res) => {
   }
 
   const options = { url: url, timeout: 50000, downloadLimit: 10000000000 };
-  let { img = "", text = "" } = await ogs(
-    options,
-    (error, results, response) => {
-      if (error) {
-        return { img: "", text: "" };
-      }
-      return {
-        img: results.ogImage.url,
-        text: results.ogDescription,
-      };
+  let {
+    img = "",
+    text = "",
+    ogTitle = "",
+  } = await ogs(options, (error, results, response) => {
+    if (error) {
+      return { img: "", text: "" };
     }
-  );
+    return {
+      img: results.ogImage.url,
+      text: results.ogDescription,
+      ogTitle: results.ogTitle,
+    };
+  });
 
   if (img) {
     const newImage = await cloudinary.uploader.upload(img, {
@@ -142,7 +144,7 @@ itemRouter.post("/create-url", async (req, res) => {
   }
 
   const createItem = await ItemModel.create({
-    title: title ? title : url,
+    title: title ? title : ogTitle ? ogTitle : url,
     text,
     img,
     url,

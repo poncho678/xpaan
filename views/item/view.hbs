@@ -1,25 +1,36 @@
-{{! conditional rendering if img, img-url, text, url }}
-{{#with item}}
+<main id="item">
+  {{! conditional rendering if img, img-url, text, url }}
 
-  {{#if img}}<img src="{{img}}" alt="" />{{/if}}
-  {{#if imgUrl}}<img src="{{imgUrl}}" alt="" />{{/if}}
+  {{#with item}}
 
   <section>
-    <h1>{{title}}</h1>
-    {{#if text}}
+    <header class="nav__secondary">
+      {{#if title}}<h1 class="title"><a href="/collection/{{collectionId._id}}" class="inline">&#8592;</a> {{title}}
+      </h1>{{/if}}
+      <nav>
+        <ul>
+          <li>
+            <a href="/collection/{{collectionId._id}}/item/{{_id}}/edit">Edit Item</a>
+          </li>
+        </ul>
+      </nav>
+      {{#if url}}<h3 class="title"><a href="{{url}}">{{url}}</a></h3>{{/if}}
+      {{#if text}}
       <article>{{text}}</article>
-    {{/if}}
-    {{#if notes}}
+      {{/if}}
+      {{#if notes}}
       {{#each notes}}{{/each}}
-    {{/if}}
-    <a href="/collection/{{collectionId._id}}/item/{{_id}}/edit">Edit Item</a>
-          {{#if collectionId.isTodoList}} 
-        <form action="/collection/{{collectionId._id}}/item/{{_id}}/update-status" method="post">
-          <label for="todo">
-            <input type="checkbox" name="todo" value="true" {{#equals completed true}}checked="true"{{/equals}} id="" onclick="form.submit()">
-          </label>
-        </form>
+      {{/if}}
+      {{#if collectionId.isTodoList}}
+      <form action="/collection/{{collectionId._id}}/item/{{_id}}/update-status" method="post">
+        <label for="todo">
+          <input type="checkbox" name="todo" value="true" {{#equals completed true}}checked="true" {{/equals}} id=""
+            onclick="form.submit()">
+        </label>
+      </form>
       {{/if}}
   </section>
-
-{{/with}}
+  {{#if img}}<img src="{{img}}" alt="" />{{/if}}
+  {{#if imgUrl}}<img src="{{imgUrl}}" alt="" />{{/if}}
+  {{/with}}
+</main>

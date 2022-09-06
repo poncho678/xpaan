@@ -1,11 +1,17 @@
 <main id="collections">
-  <h1>Your Collections <span class="super">({{collections.length}})</span></h1>
-  <a href="/collection/create">Create Collection</a>
+  <header class="nav__secondary">
+    <h1>Your Collections<span class="super">({{collections.length}})</span></h1>
+    <nav>
+      <ul>
+        <li><a href="/collection/create">Create Collection</a></li>
+      </ul>
+    </nav>
+  </header>
   <section id="collections__wrapper">
-    {{#each collections}}
+    {{#each (reverseArray collections)}}
       <article>
         <a href="/collection/{{_id}}">
-          <h3>{{name}} <span class="super">({{items.length}})</span></h3>
+          <h2>{{name}}<span class="super">({{items.length}})</span></h2>
           <p>{{{substr description 100}}}</p>
         </a>
       </article>

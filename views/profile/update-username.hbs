@@ -1,10 +1,12 @@
-<form action="/profile/update-username" method="post">
-  <label>
-    Username
-    <input type="text" name="newUsername" value="{{username}}" />
-  </label>
-  <button type="submit">Change Username</button>
-</form>
-{{#if errorMessage}}
-  {{errorMessage}}
-{{/if}}
+<main id="profile">
+  <form action="/profile/update-username" method="post">
+    <label>
+      Username
+      <input type="text" name="newUsername" value="{{username}}" />
+    </label>
+    <button type="submit">Change Username</button>
+  </form>
+  {{#if errorMessage}}
+    {{errorMessage}}
+  {{/if}}
+</main>
