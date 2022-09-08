@@ -75,8 +75,15 @@ main#item article {
 h3,
 .text-s,
 p {
-  font-size: var(--text-xs);
   line-height: 1.4em;
+}
+
+.text-s {
+  font-size: var(--text-xs);
+}
+
+.text-m {
+  font-size: var(--text-s);
 }
 
 nav.nav__primary ul,
