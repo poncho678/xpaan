@@ -1,11 +1,12 @@
-<main>
-  <h2>Create an Item</h2>
-
-  <button class="btn btn-item btn-img" data-form="img">Img</button>
-  <button class="btn btn-item btn-img-url" data-form="img-url">Img Url</button>
-  <button class="btn btn-item btn-url" data-form="url">Url</button>
-  <button class="btn btn-item btn-text" data-form="text">Text</button>
-
+<main id="item-create">
+  <h1><a href="/collection/{{collectionId._id}}" class="inline">&#8592;</a>
+    Create an Item</h1>
+  <div>
+    <button class="btn btn-item btn-img" data-form="img">Img</button>
+    <button class="btn btn-item btn-img-url" data-form="img-url">Img Url</button>
+    <button class="btn btn-item btn-url" data-form="url">Url</button>
+    <button class="btn btn-item btn-text" data-form="text">Text</button>
+  </div>
   {{! img upload form }}
   <form
     method="post"
@@ -14,22 +15,21 @@
     id="create-item-img-form"
     class="form-item img"
   >
-    <label for="title">
+    <label>
       Title
       <input type="text" name="title" placeholder="title" />
     </label>
 
-    <label for="img">
+    <label>
       Image
       <input type="file" name="img" />
     </label>
 
-    <label for="text">Text
+    <label>Text
       <textarea
         form="create-item-img-form"
         name="text"
         id="taid"
-        cols="35"
         wrap="soft"
       >{{text}}</textarea>
     </label>
@@ -44,22 +44,21 @@
     id="create-item-img-url-form"
     class="form-item img-url"
   >
-    <label for="title">
+    <label>
       Title
       <input type="text" name="title" placeholder="title" />
     </label>
 
-    <label for="imgUrl">
+    <label>
       Image Url
       <input type="url" name="imgUrl" />
     </label>
 
-    <label for="text">Text
+    <label>Text
       <textarea
         form="create-item-img-url-form"
         name="text"
         id="taid"
-        cols="35"
         wrap="soft"
       >{{text}}</textarea>
     </label>
@@ -75,22 +74,21 @@
     id="create-item-url-form"
     class="form-item url"
   >
-    <label for="title">
+    <label>
       Title
       <input type="text" name="title" placeholder="title" />
     </label>
 
-    <label for="url">
+    <label>
       Page Url
       <input type="url" name="url" />
     </label>
 
-    <label for="text">Text
+    <label>Text
       <textarea
         form="create-item-url-form"
         name="text"
         id="taid"
-        cols="35"
         wrap="soft"
       >{{text}}</textarea>
     </label>
@@ -105,17 +103,16 @@
     id="create-item-text-form"
     class="form-item text"
   >
-    <label for="title">
+    <label>
       Title
       <input type="text" name="title" placeholder="title" />
     </label>
 
-    <label for="text">Text
+    <label>Text
       <textarea
         form="create-item-text-form"
         name="text"
         id="taid"
-        cols="35"
         wrap="soft"
       >{{text}}</textarea>
     </label>
