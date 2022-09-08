@@ -19,8 +19,8 @@ a {
 :root {
   --text-xs: 0.75rem;
   --text-s: 1rem;
-  --text-m: 1.25rem;
-  --text-l: 2rem;
+  --text-m: 1.5rem;
+  --text-l: 2.25rem;
 }
 
 body {
@@ -45,7 +45,18 @@ body.dark-theme {
 }
 
 html {
-  font: 16px "Sligoil", Helvetica, Arial, sans-serif;
+  font: 10px "Sligoil", Helvetica, Arial, sans-serif;
+  font: 2.2vw "Sligoil", Helvetica, Arial, sans-serif;
+}
+@media (min-width: 600px) {
+  html {
+    font: 14px "Sligoil", Helvetica, Arial, sans-serif;
+  }
+}
+@media (min-width: 900px) {
+  html {
+    font: 16px "Sligoil", Helvetica, Arial, sans-serif;
+  }
 }
 
 * {
@@ -56,13 +67,21 @@ h1 {
   font-size: var(--text-l);
 }
 
-h3,
-.text-s {
-  font-size: var(--text-xs);
+h2,
+main#item article {
+  font-size: var(--text-m);
 }
 
-nav.nav__primary ul {
-  font-size: var(--text-m);
+h3,
+.text-s,
+p {
+  font-size: var(--text-xs);
+  line-height: 1.4em;
+}
+
+nav.nav__primary ul,
+button {
+  font-size: var(--text-s);
 }
 
 .title {
@@ -93,15 +112,31 @@ body {
   padding: 1rem;
   min-height: 100vh;
 }
+main {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
 
-main,
-main section {
+main {
   margin-top: 1rem;
+}
+
+main#collection,
+main#item-create,
+main#item {
+  padding: 1rem;
+  border-radius: 1rem;
+}
+
+hr {
+  margin: 1rem 0;
 }
 
 /************** Dropshadow **************/
 #collections__wrapper article,
 main#collection,
+main#item-create,
 main#item {
   -webkit-box-shadow: 0px 0.25em 0.7em -0.1em var(--acc-color);
   box-shadow: 0px 0.25em 0.7em -0.1em var(--acc-color);
@@ -117,22 +152,43 @@ main#item {
 }
 
 button {
-  padding: 0.5em 1.25em;
   border-radius: 100vh;
   font-family: inherit;
   color: var(--text-color);
   border-color: transparent;
 }
+
+button,
+nav ul li a,
+#profile ul li {
+  padding: 0.4em 1em;
+}
+
 body.dark-theme button {
   color: var(--bkg-color);
 }
 
 nav.nav__primary ul li,
+#profile ul li,
 .nav__secondary ul li {
   border-radius: 100vh;
 }
 
+#profile ul,
+nav ul {
+  list-style: none;
+}
+
+body.dark-theme nav ul li,
+body.dark-theme #profile ul li {
+  color: var(--bkg-color);
+}
+body.dark-theme .nav__secondary ul li {
+  color: var(--text-color);
+}
+
 button,
+#profile ul li,
 nav.nav__primary ul li {
   background-color: var(--btn-color);
   -webkit-box-shadow: 0px 0.3em 0.6em -0.2em var(--acc-color);
@@ -141,6 +197,7 @@ nav.nav__primary ul li {
 }
 
 button:hover,
+#profile ul li:hover,
 nav.nav__primary ul li:hover {
   cursor: pointer;
   -webkit-box-shadow: 0px 0.3em 0.45em -0.2em var(--acc-color);
@@ -175,21 +232,6 @@ nav.nav__primary {
   font-size: var(--text-l);
 }
 
-nav ul {
-  list-style: none;
-}
-
-body.dark-theme nav ul li {
-  color: var(--bkg-color);
-}
-body.dark-theme .nav__secondary ul li {
-  color: var(--text-color);
-}
-
-nav ul li a {
-  padding: 0.4em 1em;
-}
-
 /************** FORMs **************/
 
 input[type="checkbox"] {
@@ -216,10 +258,6 @@ input[type="checkbox"]:hover::before {
   background-color: var(--text-color);
 }
 
-/* input[type="checkbox"]:checked:hover::before {
-  background-color: var(--bkg-color);
-} */
-
 input[type="checkbox"]:checked::before {
   background-color: var(--text-color);
 }
@@ -232,7 +270,7 @@ input[type="checkbox"]:checked::before {
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 33vw;
-  line-height: 1;
+  line-height: 0.95;
   z-index: -1;
 }
 
@@ -257,19 +295,27 @@ body.dark-theme #collections__wrapper article {
 
 #collections__wrapper article a {
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 /************** Single Collection View **************/
 
-main#collection {
-  padding: 1rem;
-  border-radius: 1rem;
-}
-
 #collection__wrapper {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(45%, 1fr));
   gap: 1rem;
+}
+@media (min-width: 800px) {
+  #collection__wrapper {
+    grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  }
+}
+
+#collection__wrapper article {
+  grid-column: 1 / -1;
+  grid-row: span 2;
 }
 
 #collection__wrapper .item {
@@ -301,7 +347,52 @@ main#collection {
   flex-direction: column;
 }
 
+.collection__item__info form {
+  width: auto;
+  min-width: auto;
+}
+
 /************** Item Form **************/
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 100%;
+}
+@media (min-width: 780px) {
+  form {
+    width: 50%;
+    min-width: 750px;
+  }
+}
+form label {
+  font-size: var(--text-s);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+form label:hover {
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="password"],
+textarea {
+  color: inherit;
+  font-size: inherit;
+  font: inherit;
+  padding: 0.5rem;
+  border-style: solid;
+  border-width: 0.1rem;
+  border-color: var(--text-color);
+  border-radius: 0.5em;
+  background-color: var(--bkg-color);
+}
+
 form.form-item {
   display: none;
 }
@@ -310,11 +401,16 @@ form.form-item.show {
   flex-direction: column;
 }
 
+/************** Item Create / Item Edit **************/
+main#item-create {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 /************** Item View **************/
 
 main#item {
-  padding: 1rem;
-  border-radius: 1rem;
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
@@ -325,8 +421,18 @@ main#item img {
 }
 
 main#item section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
   padding: 0;
   margin: 0;
+}
+
+/************** Profile **************/
+
+#profile ul {
+  display: flex;
+  gap: 1rem;
 }
 
 /************** Footer **************/
