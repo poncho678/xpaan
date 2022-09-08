@@ -46,7 +46,7 @@ profileRouter.get("/update-username", async (req, res) => {
 
 profileRouter.post("/update-username", async (req, res) => {
   const { username, _id } = res.locals.user;
-  const { newUsername } = req.body;
+  const { newUsername, confirmNewUsername } = req.body;
 
   if (!newUsername) {
     return res.status(400).render("profile/update-username", {
@@ -54,6 +54,19 @@ profileRouter.post("/update-username", async (req, res) => {
       errorMessage: "Please enter a username.",
     });
   }
+  if (!confirmNewUsername) {
+    return res.status(400).render("profile/update-username", {
+      username,
+      errorMessage: "Please confirm your username.",
+    });
+  }
+  if (newUsername !== confirmNewUsername) {
+    return res.status(400).render("profile/update-username", {
+      username,
+      errorMessage: "Yeah... That was not the same.",
+    });
+  }
+
   if (username === newUsername) {
     return res.status(400).render("profile/update-username", {
       username,
