@@ -287,7 +287,12 @@ input[type="checkbox"]:checked::before {
   background-color: var(--btn-color);
   color: var(--text-color);
   border-radius: 1rem;
-  max-width: 50%;
+  max-width: 100%;
+}
+@media (min-width: 600px) {
+  #collections__wrapper article {
+    max-width: 55%;
+  }
 }
 
 body.dark-theme #collections__wrapper article {
