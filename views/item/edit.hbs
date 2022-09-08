@@ -1,57 +1,66 @@
-<form
-  action="/collection/{{collectionId._id}}/item/{{_id}}/edit"
-  method="post"
-  id="edit-item-form"
->
-  <label for="title">
-    Title
-    <input type="text" name="title" placeholder="title" value="{{title}}" />
-  </label>
+<main id="item-create">
+  <h1><a
+      href="/collection/{{collectionId._id}}/item/{{_id}}"
+      class="inline"
+    >&#8592;</a>
+    Edit Item</h1>
+  <form
+    action="/collection/{{collectionId._id}}/item/{{_id}}/edit"
+    method="post"
+    id="edit-item-form"
+  >
+    <label for="title">
+      Title
+      <input type="text" name="title" placeholder="title" value="{{title}}" />
+    </label>
 
-  {{!-- {{#equals type "img"}}
+    {{!-- {{#equals type "img"}}
     <label for="img">
       Image
       <input type="file" name="img" />
     </label>
   {{/equals}} --}}
 
-  {{#equals type "img-url"}}
-    <label for="img">
-      Image Url
-      <input type="url" name="img" value="{{img}}" />
+    {{#equals type "img-url"}}
+      <label for="img">
+        Image Url
+        <input type="url" name="img" value="{{img}}" />
+      </label>
+    {{/equals}}
+
+    {{#equals type "url"}}
+      <label for="url">
+        Page Url
+        <input type="url" name="url" value="{{url}}" />
+      </label>
+    {{/equals}}
+
+    <label for="text">Text
+      <textarea
+        form="edit-item-form"
+        name="text"
+        id="taid"
+        wrap="soft"
+      >{{text}}</textarea>
     </label>
-  {{/equals}}
 
-  {{#equals type "url"}}
-    <label for="url">
-      Page Url
-      <input type="url" name="url" value="{{url}}" />
+    <button type="submit">Save Changes</button>
+  </form>
+  <hr />
+  <h1>Delete Item</h1>
+
+  <form
+    action="/collection/{{collectionId._id}}/item/{{_id}}/delete"
+    method="post"
+  >
+    <label for="safeToDelete">
+      Are you sure you want to delete this item?
+      <input type="checkbox" name="safeToDelete" id="" />
     </label>
-  {{/equals}}
+    <button type="submit">Delete Item</button>
+  </form>
 
-  <label for="text">Text
-    <textarea
-      form="edit-item-form"
-      name="text"
-      id="taid"
-      wrap="soft"
-    >{{text}}</textarea>
-  </label>
-
-  <button type="submit">Save Changes</button>
-</form>
-
-<form
-  action="/collection/{{collectionId._id}}/item/{{_id}}/delete"
-  method="post"
->
-  <label for="safeToDelete">
-    Are you sure you want to delete this item?
-    <input type="checkbox" name="safeToDelete" id="" />
-  </label>
-  <button type="submit">Delete Item</button>
-</form>
-
-{{#if errorMessage}}
-  {{errorMessage}}
-{{/if}}
+  {{#if errorMessage}}
+    {{errorMessage}}
+  {{/if}}
+</main>

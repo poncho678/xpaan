@@ -1,3 +1,5 @@
+<main id="item-create">
+<h1><a href="/collection/{{_id}}" class="inline">&#8592;</a> Edit Collection</h1>
 <form
   method="post"
   action="/collection/{{_id}}/edit"
@@ -26,7 +28,8 @@
 
   <button type="submit">Save Changes</button>
 </form>
-
+<hr>
+<h1>Delete Collection</h1>
 <form
   action="/collection/{{_id}}/delete"
   method="post"
@@ -41,3 +44,5 @@
 {{#if errorMessage}}
   {{errorMessage}}
 {{/if}}
+
+</main>
