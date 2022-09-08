@@ -1,24 +1,27 @@
-<form method="post" action="/collection/create" id="create-collection-form">
-  <label for="name">Title
-    <input
-      type="text"
-      name="name"
-      placeholder="Collection Title"
-      value="{{name}}"
-    />
-  </label>
-  <label for="description">Description
-    <textarea
-      form="create-collection-form"
-      name="description"
-      id="taid"
-      cols="35"
-      wrap="soft"
-    >{{description}}</textarea>
-  </label>
-  <label for="isTodoList">Is it a Todolist?
-    <input type="checkbox" name="isTodoList" />
-  </label>
+<main>
+  <h1><a href="/collection/" class="inline">&#8592;</a>
+    Create a Collection</h1>
+  <form method="post" action="/collection/create" id="create-collection-form">
+    <label>Title
+      <input
+        type="text"
+        name="name"
+        placeholder="Collection Title"
+        value="{{name}}"
+      />
+    </label>
+    <label>Description
+      <textarea
+        form="create-collection-form"
+        name="description"
+        id="taid"
+        wrap="soft"
+      >{{description}}</textarea>
+    </label>
+    <label>Is it a Todolist?
+      <input type="checkbox" name="isTodoList" />
+    </label>
 
-  <button type="submit">Create Collection</button>
-</form>
+    <button type="submit">Create Collection</button>
+  </form>
+</main>

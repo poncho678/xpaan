@@ -1,14 +1,19 @@
-<form action="/auth/login" method="POST">
-   <label> Username
-      <input type="text" name="username">
-   </label>
-   <label> Password
-      <input type="password" name="password">
-   </label>
+<main>
+  <h1>Login</h1>
+  <form action="/auth/login" method="POST">
+    <label>
+      Username
+      <input type="text" name="username" />
+    </label>
+    <label>
+      Password
+      <input type="password" name="password" />
+    </label>
 
-   <button type="submit">Submit</button>
-</form>
+    <button type="submit">Submit</button>
+  </form>
 
-{{#if errorMessage}}
-   {{errorMessage}}
-{{/if}}
+  {{#if errorMessage}}
+    {{errorMessage}}
+  {{/if}}
+</main>
