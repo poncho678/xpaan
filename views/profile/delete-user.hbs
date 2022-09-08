@@ -1,11 +1,12 @@
 <main id="profile">
+  <h1><a href="/profile/" class="inline">&#8592;</a> Delete Account</h1>
   <form action="/profile/delete-user" method="post">
     <label>
       {{username}}, are you sure you want to do delete your account? Enter in
       your current username to confirm.
       <input type="text" name="confirmUsername" />
     </label>
-    <button type="submit">Delete User</button>
+    <button type="submit">Delete</button>
   </form>
   {{#if errorMessage}}
     {{errorMessage}}
