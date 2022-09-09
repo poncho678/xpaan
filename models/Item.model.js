@@ -29,7 +29,7 @@ const itemSchema = new Schema(
     },
     type: {
       type: String,
-      enum: ["text", "url", "img-url", "img"],
+      enum: ["text", "url", "url-screenshot", "img-url", "img"],
     },
   },
   {

@@ -5,6 +5,10 @@
     <button class="btn btn-item btn-img" data-form="img">Img</button>
     <button class="btn btn-item btn-img-url" data-form="img-url">Img Url</button>
     <button class="btn btn-item btn-url" data-form="url">Url</button>
+    <button
+      class="btn btn-item btn-url-screenshot"
+      data-form="url-screenshot"
+    >Url Screenshot</button>
     <button class="btn btn-item btn-text" data-form="text">Text</button>
   </div>
   {{! img upload form }}
@@ -15,6 +19,7 @@
     id="create-item-img-form"
     class="form-item img"
   >
+    <h1>Img</h1>
     <label>
       Title
       <input type="text" name="title" placeholder="title" />
@@ -44,6 +49,8 @@
     id="create-item-img-url-form"
     class="form-item img-url"
   >
+    <h1>Img Url</h1>
+
     <label>
       Title
       <input type="text" name="title" placeholder="title" />
@@ -74,6 +81,8 @@
     id="create-item-url-form"
     class="form-item url"
   >
+    <h1>Url</h1>
+
     <label>
       Title
       <input type="text" name="title" placeholder="title" />
@@ -96,6 +105,37 @@
     <button type="submit">Create Item</button>
   </form>
 
+  {{! Url Screenshot form }}
+  <form
+    method="post"
+    action="/collection/{{collectionId}}/item/create-url-screenshot?type=url-screenshot"
+    id="create-item-url-screenshot-form"
+    class="form-item url-screenshot"
+  >
+    <h1>Url Screenshot</h1>
+
+    <label>
+      Title
+      <input type="text" name="title" placeholder="title" />
+    </label>
+
+    <label>
+      Page Url
+      <input type="url" name="url" />
+    </label>
+
+    <label>Text
+      <textarea
+        form="create-item-url-screenshot-form"
+        name="text"
+        id="taid"
+        wrap="soft"
+      >{{text}}</textarea>
+    </label>
+
+    <button type="submit">Create Item</button>
+  </form>
+
   {{! Text form }}
   <form
     method="post"
@@ -103,6 +143,7 @@
     id="create-item-text-form"
     class="form-item text"
   >
+    <h1>Text</h1>
     <label>
       Title
       <input type="text" name="title" placeholder="title" />

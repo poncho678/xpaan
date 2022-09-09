@@ -2,7 +2,10 @@
   {{! conditional rendering if img, img-url, text, url }}
 
   {{#with item}}
-
+  {{#if url}}<a href="{{url}}" class="" target="_blank">{{/if}}
+  {{#if img}}<img src="{{img}}" alt="" />{{/if}}
+  {{#if imgUrl}}<img src="{{imgUrl}}" alt="" />{{/if}}
+  {{#if url}}</a>{{/if}}
   <section>
     <header class="nav__secondary">
       <h1 class="title"><a href="/collection/{{collectionId._id}}" class="inline">&#8592;</a> {{#if title}}{{#if url}}<a href="{{url}}" class="inline" target="_blank">{{/if}}{{title}}{{#if url}}</a>{{/if}}
@@ -31,9 +34,5 @@
       </form>
       {{/if}}
   </section>
-  {{#if url}}<a href="{{url}}" class="" target="_blank">{{/if}}
-  {{#if img}}<img src="{{img}}" alt="" />{{/if}}
-  {{#if imgUrl}}<img src="{{imgUrl}}" alt="" />{{/if}}
-  {{#if url}}</a>{{/if}}
   {{/with}}
 </main>

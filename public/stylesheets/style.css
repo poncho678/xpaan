@@ -73,6 +73,11 @@ main#item article {
 }
 
 h3,
+.text-m {
+  font-size: var(--text-s);
+}
+
+h3,
 .text-s,
 p {
   line-height: 1.4em;
@@ -80,10 +85,6 @@ p {
 
 .text-s {
   font-size: var(--text-xs);
-}
-
-.text-m {
-  font-size: var(--text-m);
 }
 
 nav.nav__primary ul,
@@ -446,6 +447,11 @@ main#item section {
   gap: 0.5rem;
   padding: 0;
   margin: 0;
+}
+
+main#item form {
+  width: auto;
+  min-width: auto;
 }
 
 /************** Profile **************/
