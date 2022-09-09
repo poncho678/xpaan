@@ -12,7 +12,7 @@
       <article>
         <a href="/collection/{{_id}}">
           <h2>{{name}}<span class="super">({{items.length}})</span></h2>
-          <p>{{{substr description 250}}}</p>
+          {{#if description}}<p>{{{substr description 250}}}</p>{{/if}}
         </a>
       </article>
     {{/each}}
