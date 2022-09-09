@@ -81,7 +81,7 @@ main#item article {
 
 h3,
 .text-m {
-  font-size: var(--text-s);
+  font-size: var(--text-xs);
 }
 
 h3,
@@ -368,7 +368,7 @@ main#collection header .description {
 
 #collection__wrapper .item img {
   width: 100%;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0.1rem 0.1rem;
+  box-shadow: rgba(78, 0, 255, 0.25) 0px 0px 0.05rem 0.05rem;
 }
 
 #collection__wrapper article,
