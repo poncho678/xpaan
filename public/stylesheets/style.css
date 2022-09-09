@@ -28,6 +28,7 @@ body {
   --bkg-color: #fefff9;
   --btn-color: #fefff9;
   --acc-color: #4e00ff;
+  --inv-color: #b1ff00;
 }
 body.dark-theme {
   --text-color: #fefff9;
@@ -98,6 +99,11 @@ button {
   font-size: var(--text-s);
 }
 
+main#collection .description,
+main#item article {
+  text-indent: 3rem;
+}
+
 .title {
   -ms-word-break: break-all;
   word-break: break-all;
@@ -145,6 +151,10 @@ main#item {
 
 hr {
   margin: 1rem 0;
+}
+
+::selection {
+  background-color: var(--inv-color);
 }
 
 /************** Dropshadow **************/
@@ -481,6 +491,7 @@ main#item form {
 
 /************** Footer **************/
 footer {
+  display: none;
   position: fixed;
   bottom: 0;
   left: 0;

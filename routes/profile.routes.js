@@ -131,9 +131,9 @@ profileRouter.post("/update-password", async (req, res) => {
 
   const isSamePassword = bcrypt.compareSync(currentPassword, user.password);
   if (!isSamePassword) {
-    return res.status(400).render("settings/update-password", {
+    return res.status(400).render("profile/update-password", {
       user,
-      errorMessage: "That is not your password",
+      errorMessage: "Something failed...",
     });
   }
   const salt = bcrypt.genSaltSync(15);
