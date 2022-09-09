@@ -368,7 +368,8 @@ main#collection header .description {
 
 #collection__wrapper .item img {
   width: 100%;
-  box-shadow: rgba(78, 0, 255, 0.25) 0px 0px 0.05rem 0.05rem;
+  -webkit-box-shadow: rgba(78, 0, 255, 0.175) 0px 0px 0.05rem 0.05rem;
+  box-shadow: rgba(78, 0, 255, 0.175) 0px 0px 0.05rem 0.05rem;
 }
 
 #collection__wrapper article,
