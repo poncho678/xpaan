@@ -26,7 +26,7 @@
     </label>
 
     <label>
-      Image
+      Select your Image
       <input type="file" name="img" />
     </label>
 
@@ -161,4 +161,7 @@
     <button type="submit">Create Item</button>
 
   </form>
+  {{#if errorMessage}}
+    {{errorMessage}}
+  {{/if}}
 </main>

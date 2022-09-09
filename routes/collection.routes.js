@@ -139,49 +139,52 @@ collectionRouter.post(
     const { collectionId } = res.locals;
     const { safeToDelete } = req.body;
     const user = req.session.user._id;
-
-    if (!safeToDelete || safeToDelete !== "on") {
-      return res.status(400).redirect(`/collection/${collectionId}/edit`);
-    }
-
-    if (!req.session.user.collections.includes(collectionId)) {
-      return res.status(400).redirect("/");
-    }
-
-    await UserModel.findByIdAndUpdate(user, {
-      $pull: { collections: collectionId },
-    });
-    req.session.user.collections = req.session.user.collections.filter(
-      (item) => {
-        return item !== collectionId;
+    try {
+      if (!safeToDelete || safeToDelete !== "on") {
+        return res.status(400).redirect(`/collection/${collectionId}/edit`);
       }
-    );
 
-    const allImages = await ItemModel.find({
-      collectionId: collectionId,
-      img: { $nin: [null, ""] },
-    });
+      if (!req.session.user.collections.includes(collectionId)) {
+        return res.status(400).redirect("/");
+      }
 
-    await allImages.map(async (item) => {
-      const public_id = item.img.slice(
-        item.img.indexOf(cloudinaryFolder),
-        item.img.lastIndexOf(".")
+      await UserModel.findByIdAndUpdate(user, {
+        $pull: { collections: collectionId },
+      });
+      req.session.user.collections = req.session.user.collections.filter(
+        (item) => {
+          return item !== collectionId;
+        }
       );
 
-      if (public_id) {
-        return await cloudinary.uploader.destroy(
-          public_id,
-          function (error, result) {
-            console.log(result, error);
-          }
+      const allImages = await ItemModel.find({
+        collectionId: collectionId,
+        img: { $nin: [null, ""] },
+      });
+
+      await allImages.map(async (item) => {
+        const public_id = item.img.slice(
+          item.img.indexOf(cloudinaryFolder),
+          item.img.lastIndexOf(".")
         );
-      }
-    });
 
-    await ItemModel.deleteMany({ collectionId: collectionId });
-    await CollectionModel.findByIdAndDelete(collectionId);
+        if (public_id) {
+          return await cloudinary.uploader.destroy(
+            public_id,
+            function (error, result) {
+              console.log(result, error);
+            }
+          );
+        }
+      });
 
-    return res.status(200).redirect("/collection");
+      await ItemModel.deleteMany({ collectionId: collectionId });
+      await CollectionModel.findByIdAndDelete(collectionId);
+
+      return res.status(200).redirect("/collection");
+    } catch (error) {
+      return res.status(500).redirect("/collection");
+    }
   }
 );
 
