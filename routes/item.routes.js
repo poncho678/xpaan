@@ -188,6 +188,9 @@ itemRouter.post("/create-url-screenshot", async (req, res) => {
   );
 
   const screenshot = await captureWebsite.base64(url, {
+    launchOptions: {
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    },
     width: 1280,
     height: 1280,
     type: "jpeg",
