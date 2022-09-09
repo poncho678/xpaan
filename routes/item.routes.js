@@ -7,6 +7,9 @@ const ogs = require("open-graph-scraper");
 const { v2: cloudinary } = require("cloudinary");
 const { cloudinaryFolder } = require("../utils/consts");
 
+// screenshot
+const captureWebsite = require("capture-website");
+
 // middleware
 const uploadMiddleware = require("../middleware/cloudinary");
 const isLoggedIn = require("../middleware/isLoggedIn");
@@ -135,6 +138,65 @@ itemRouter.post("/create-url", async (req, res) => {
       ogTitle: results.ogTitle,
     };
   });
+
+  if (img) {
+    const newImage = await cloudinary.uploader.upload(img, {
+      folder: cloudinaryFolder,
+    });
+    img = newImage.url;
+  }
+
+  const createItem = await ItemModel.create({
+    title: title ? title : ogTitle ? ogTitle : url,
+    text,
+    img,
+    url,
+    type,
+    collectionId,
+  });
+
+  await CollectionModel.findByIdAndUpdate(collectionId, {
+    $push: { items: createItem._id },
+  });
+
+  res.redirect(`/collection/${collectionId}/item/${createItem._id}`);
+});
+
+// url screenshot form
+itemRouter.post("/create-url-screenshot", async (req, res) => {
+  const { collectionId } = req.params;
+  const { title, url } = req.body;
+  const { type } = req.query;
+
+  // if no file is selected... return.
+  if (!url) {
+    return res.status(400).render("item/create", { collectionId, title, text });
+  }
+
+  const options = { url: url, timeout: 50000, downloadLimit: 10000000000 };
+  let { text = "", ogTitle = "" } = await ogs(
+    options,
+    (error, results, response) => {
+      if (error) {
+        return { text: "" };
+      }
+      return {
+        text: results.ogDescription,
+        ogTitle: results.ogTitle,
+      };
+    }
+  );
+
+  const screenshot = await captureWebsite.base64(url, {
+    width: 1280,
+    height: 1280,
+    type: "jpeg",
+    quality: 0.5,
+    delay: 2,
+    overwrite: true,
+  });
+
+  let img = `data:image/png;base64,${screenshot}`;
 
   if (img) {
     const newImage = await cloudinary.uploader.upload(img, {
