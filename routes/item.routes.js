@@ -192,7 +192,7 @@ itemRouter.post("/create-url-screenshot", async (req, res) => {
     height: 1280,
     type: "jpeg",
     quality: 0.5,
-    delay: 2,
+    delay: 3,
     overwrite: true,
   });
 
