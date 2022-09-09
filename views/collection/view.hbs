@@ -1,7 +1,7 @@
 <main id="collection">
   <header class="nav__secondary">
     <h1 class=""><a href="/collection/" class="inline">&#8592;</a> {{name}}<span class="super">({{items.length}})</span></h1>
-    <p class="description">{{description}}</p>
+    {{#if description}}<p class="description">{{description}}</p>{{/if}}
     <nav>
       <ul>
         <li><a href="/collection/{{_id}}/item/create">Create Item</a></li>

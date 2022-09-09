@@ -58,6 +58,12 @@ html {
     font: 16px "Sligoil", Helvetica, Arial, sans-serif;
   }
 }
+@media (min-width: 1440px) {
+  html {
+    font: 18px "Sligoil", Helvetica, Arial, sans-serif;
+    font: 1.1vw "Sligoil", Helvetica, Arial, sans-serif;
+  }
+}
 
 * {
   font-weight: 200;
@@ -332,6 +338,10 @@ body.dark-theme #collections__wrapper article {
   }
 }
 
+main#collection header .description {
+  padding: 0.5rem 0;
+}
+
 #collection__wrapper article {
   grid-column: 1 / -1;
   grid-row: span 2;
@@ -438,15 +448,22 @@ main#item-create {
 }
 
 main#item img {
+  min-width: 50%;
   max-width: 100%;
 }
 
-main#item section {
+main#item section,
+main#item section .item__section__wrapper {
   display: flex;
+  position: relative;
   flex-direction: column;
   gap: 0.5rem;
   padding: 0;
   margin: 0;
+}
+
+main#item section {
+  justify-content: space-between;
 }
 
 main#item form {
